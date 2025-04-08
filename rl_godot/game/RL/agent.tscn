@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dle34e2m74ipt"]
+
+[sub_resource type="GDScript" id="GDScript_5fm68"]
+script/source = "extends Agent
+"
+
+[node name="Agent" type="Node"]
+script = SubResource("GDScript_5fm68")
+metadata/_custom_type_script = "uid://fj517ekitg80"
