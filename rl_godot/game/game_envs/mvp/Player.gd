@@ -51,8 +51,8 @@ func _physics_process(delta):
 		direction = 1
 	elif Input.is_action_pressed("move_left"):
 		direction = -1
-		
-	direction = agent.move
+	else:
+		direction = agent.move
 	
 	# Update distance traveled
 	distance_traveled = direction * SPEED * delta
