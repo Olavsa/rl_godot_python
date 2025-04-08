@@ -5,7 +5,7 @@ from packet import Packet  # Ensure this matches the format Godot expects
 import time
 
 
-class GodotTCPClient:
+class SyncTCPClient:
     """Synchronous wrapper for AsyncTCPClient, making it SB3- and gymnasium-compatible."""
 
     def __init__(self):
