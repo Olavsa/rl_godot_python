@@ -49,8 +49,6 @@ class SyncTCPClient:
         self.step_time += (t2-t1)/1000000
         self.step_counter += 1
         
-        print(f"Step took {(t2-t1)/1000000} ms")
-        print(f"step_avg: {self.step_time / self.step_counter} ms")
 
         if self.observation is None:
             raise ConnectionError("Lost connection to Godot.")
@@ -71,6 +69,9 @@ class SyncTCPClient:
         self.loop.run_until_complete(self.client.close_connection())
         print("Connection closed")
 
+
+    def print_avg_step_time(self):
+        print(f"Average time per environment step: {self.step_time / self.step_counter} ms")
 
 
     def _handle_exit(self, signum, frame):
