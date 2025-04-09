@@ -92,6 +92,7 @@ func _handle_socket_connection():
 
 # Helper function to safely perform actions on the main thread
 func _step(payloads):
+	#print("Payloads: ", payloads)
 	game_process.step(payloads)
 	await _get_and_send_observation()
 

@@ -11,7 +11,7 @@ var truncate_limit = 3
 
 @onready var head: RigidBody2D = $Head
 @onready var upper_body: RigidBody2D = $UpperBody
-@onready var agent: Agent = $Agent
+@onready var agent: Motorcycle_agent = $Agent
 
 var initial_state = {} 
 var distance_traveled = 0
@@ -61,6 +61,7 @@ func get_raycast_info():
 
 
 func reset():
+	print("Reset")
 	# Restore main body state
 	position = initial_state["position"]
 	rotation = initial_state["rotation"]
@@ -97,14 +98,12 @@ func reset_child_bodies():
 	upper_body.angular_velocity = 0
 	upper_body.linear_velocity = Vector2.ZERO
 	upper_body.rotation = 0
-
+	
 func is_truncated():
 	truncated = true
 	hit_head = false
 	is_finished = true
 	goal_reached = false
-	print("truncated")
-	reset()
 	agent.set_is_done(true)
 
 func player_hit_head():
@@ -112,8 +111,6 @@ func player_hit_head():
 	is_finished = true
 	goal_reached = false
 	truncated = false
-	reset()
-	print("head")	
 	agent.set_is_done(true)
 	
 func goal_is_reached():
@@ -124,34 +121,38 @@ func goal_is_reached():
 	truncated = false
 	agent.set_is_done(true)
 	
-	reset()
-	
 func handle_movement(delta):
-	if Input.is_action_pressed("ui_up"):
+	print("AGENT VALUES LIVE:", agent.forward, agent.backward, agent.lean_right, agent.lean_left)	
+	if Input.is_action_pressed("ui_up") or agent.forward:
 		for wheel in wheels:
 			if wheel.angular_velocity < max_speed:
 				wheel.apply_torque_impulse(speed * delta)
 	
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_left") or agent.lean_left:
 		head.apply_torque_impulse(-speed * body_torque_impulse_force * delta)
 		upper_body.apply_torque_impulse(-speed * body_torque_impulse_force * delta)
 		
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right") or agent.lean_right:
 		head.apply_torque_impulse(body_torque_impulse_force * speed * delta)
 		upper_body.apply_torque_impulse(body_torque_impulse_force * speed * delta)
 	
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("ui_down") or agent.backward :
 		for wheel in wheels:
 			if wheel.angular_velocity > -max_speed:
 				wheel.apply_torque_impulse(-speed * delta)
 	
+	
 	# Update distance traveled (right increases, left decreases)
+	distance_traveled = 0
+	
 	var current_position_x = global_position.x
 	var delta_position_x = current_position_x - previous_position_x
 	
 	var old_distance_traveled = distance_traveled 
 	
 	distance_traveled += round(delta_position_x / 10)
+	distance_traveled += 10
+	
 	
 	if old_distance_traveled == distance_traveled:
 		truncate_counter += 0.01
@@ -167,7 +168,6 @@ func handle_movement(delta):
 		goal_is_reached()
 	
 	previous_position_x = current_position_x
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player"):

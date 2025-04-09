@@ -1,30 +1,66 @@
 extends Agent
+class_name Motorcycle_agent
 
 @onready var motorcycle: RigidBody2D = $".."
 
+var do_nothing = 0
 var forward = 0
 var backward = 0
 var lean_right = 0
 var lean_left = 0
 # ---------------- OVERRIDE THESE ---------------------------------
 func get_observation():
-	# This should either get observation data from methods in your player instance,
-	# or the agent observation data should be continually updated in the player instance.
-	var observation = []
-	#observation.append(player.get_distance_to_box())
-	#observation.append(player.distance_traveled)
-	#observation.append(int(player.is_finished))
-	#observation.append(int(player.goal_reached))
-	return observation
+	var obs = []
+	var safe_goal_distance = max(1.0, motorcycle.distance_to_goal)
+
+	obs.append(abs(motorcycle.distance_traveled) / safe_goal_distance)
+
+	obs.append(abs(motorcycle.global_position.x) / 1000.0)
+	obs.append(abs(motorcycle.global_position.y) / 1000.0)
+
+	obs.append(abs(motorcycle.linear_velocity.x) / 100.0)
+	obs.append(abs(motorcycle.linear_velocity.y) / 100.0)
+
+	obs.append(abs(motorcycle.angular_velocity) / 10.0)
+
+	obs.append(abs(motorcycle.rotation) / PI)
+
+	for ray_distance in motorcycle.get_raycast_info():
+		obs.append(clamp(ray_distance / 1000.0, 0.0, 1.0))
+
+	for wheel in motorcycle.wheels:
+		obs.append(abs(wheel.global_position.x) / 1000.0)
+		obs.append(abs(wheel.global_position.y) / 1000.0)
+
+	for wheel in motorcycle.wheels:
+		obs.append(abs(wheel.linear_velocity.x) / 100.0)
+		obs.append(abs(wheel.linear_velocity.y) / 100.0)
+
+	for wheel in motorcycle.wheels:
+		obs.append(abs(wheel.angular_velocity) / 10.0)
+
+	for wheel in motorcycle.wheels:
+		obs.append(abs(wheel.rotation) / PI)
+
+	obs.append(int(motorcycle.truncated))
+	obs.append(int(motorcycle.goal_reached))
+	obs.append(int(motorcycle.hit_head))
+	obs.append(int(motorcycle.is_finished))
+	
+	return obs
+
 
 func set_actions(_actions: Array):
-	forward = _actions[0]
-	backward = _actions[1]
-	lean_right = _actions[2]
-	lean_left = _actions[3]
+	print("Received actions: ", _actions)
+	
+	do_nothing = _actions[0]
+	forward = _actions[1]
+	backward = _actions[2]
+	lean_right = _actions[3]
+	lean_left = _actions[4]
 	
 	
 func reset():
-	#player.reset()
+	motorcycle.reset()
 	set_is_done(false)
 	set_reward(0)

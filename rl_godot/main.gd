@@ -5,6 +5,8 @@ extends Node
 @export var human_mode = true
 @export var engine_speed = 1.0
 @export var should_render = true
+@onready var agent: Node = $GameProcess/Motorcycle/Agent
+
 
 @onready var server_tcp: TCPServerPython = $ServerTCP
 @onready var game_process: GameProcess = $GameProcess

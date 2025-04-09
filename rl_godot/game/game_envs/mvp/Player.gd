@@ -18,7 +18,7 @@ var initial_state = {}  # Dictionary to store the initial state
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
-
+	agent.get_observation()
 	# Store the initial state when the player enters the scene
 	initial_state = {
 		"position": position,
