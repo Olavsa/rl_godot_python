@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="rl_godot"
-run/main_scene="uid://l0ev3vah46xp"
+run/main_scene="uid://hxo4kfk5lyko"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [display]
@@ -49,3 +49,7 @@ exit={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.433169, 0.800268, 0.842627, 1)

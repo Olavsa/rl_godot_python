@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=3 uid="uid://cf6qrrv24rtxd"]
+
+[ext_resource type="PackedScene" uid="uid://cc074x382va21" path="res://Scenes/wheel.tscn" id="1_hepl7"]
+[ext_resource type="Script" uid="uid://bmtuub3utq04w" path="res://Scripts/player.gd" id="1_hjx8g"]
+[ext_resource type="Texture2D" uid="uid://cnmpbo2huwjwq" path="res://Images/Car/Car.png" id="2_ysav0"]
+[ext_resource type="Texture2D" uid="uid://cjklrs8c5wq3f" path="res://Images/Characters/Body2.png" id="3_21yij"]
+[ext_resource type="Texture2D" uid="uid://ib8o7io6f5vc" path="res://Images/Characters/Head2.png" id="4_8xpyf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b0vtx"]
+radius = 41.0
+
+[node name="Player" type="RigidBody2D" groups=["player"]]
+collision_layer = 2
+script = ExtResource("1_hjx8g")
+
+[node name="WheelHolder" type="PinJoint2D" parent="."]
+position = Vector2(-134, 112)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 10.0
+
+[node name="Wheel" parent="WheelHolder" instance=ExtResource("1_hepl7")]
+
+[node name="GrooveJoint2D" type="GrooveJoint2D" parent="WheelHolder"]
+visible = false
+position = Vector2(0, -42)
+node_a = NodePath("../..")
+node_b = NodePath("../Wheel")
+initial_offset = 42.0
+
+[node name="WheelHolder2" type="PinJoint2D" parent="."]
+position = Vector2(70, 105)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 10.0
+
+[node name="Wheel" parent="WheelHolder2" instance=ExtResource("1_hepl7")]
+
+[node name="GrooveJoint2D2" type="GrooveJoint2D" parent="WheelHolder2"]
+position = Vector2(0, -42)
+node_a = NodePath("../..")
+node_b = NodePath("../Wheel")
+initial_offset = 42.0
+
+[node name="Body" type="Sprite2D" parent="."]
+position = Vector2(-37, -46)
+texture = ExtResource("3_21yij")
+
+[node name="Head" type="RigidBody2D" parent="Body"]
+position = Vector2(12, 17)
+mass = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="Body/Head"]
+position = Vector2(-3, -64)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_8xpyf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body/Head"]
+position = Vector2(-1, -62)
+shape = SubResource("CircleShape2D_b0vtx")
+
+[node name="HeadSpring" type="PinJoint2D" parent="Body/Head"]
+position = Vector2(-2, -56)
+node_a = NodePath("..")
+node_b = NodePath("../../..")
+softness = 5.0
+
+[node name="NeckJoint" type="PinJoint2D" parent="Body/Head"]
+position = Vector2(0, 3)
+node_a = NodePath("..")
+node_b = NodePath("../../..")
+softness = 2.5
+
+[node name="Car" type="Sprite2D" parent="."]
+position = Vector2(-29.6, -2)
+scale = Vector2(0.6, 0.5)
+texture = ExtResource("2_ysav0")
+
+[node name="CarCollisionShape" type="CollisionPolygon2D" parent="."]
+position = Vector2(-29.6, -2)
+polygon = PackedVector2Array(-121, -29, -132, -21, -132, 33, -116, 45, 102, 46, 126, 27, 126, 7, 71, -23, -11, -27)

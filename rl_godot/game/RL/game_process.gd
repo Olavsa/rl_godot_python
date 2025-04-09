@@ -35,7 +35,7 @@ func _ready() -> void:
 		assert(agent != null, "Agent was not found in game process")
 
 ## Physics process stops after a certain number of steps to wait for new input.
-# This makes it possible to train with different engine speeds and have consistent behavior.
+# This makes it possible to train with fferent engine speeds and have consistent behavior.
 var frame_counter = 0
 func _physics_process(_delta):
 	if paused:
