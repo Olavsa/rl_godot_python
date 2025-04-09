@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbjbnky5qu1oo"]
+
+[ext_resource type="Script" uid="uid://s5trn8o37g6i" path="res://tcp/tcp_server_python.gd" id="1_1qhpr"]
+
+[node name="TCPServerPython" type="Node"]
+script = ExtResource("1_1qhpr")

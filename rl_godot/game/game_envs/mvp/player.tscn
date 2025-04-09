@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq0umaxjconvp"]
+
+[ext_resource type="Script" uid="uid://cewh0nbg8h4yv" path="res://game/game_envs/mvp/Player.gd" id="1_ivqf0"]
+[ext_resource type="Texture2D" uid="uid://n3om862phel8" path="res://game/game_envs/mvp/icon.svg" id="2_l0mf5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lqf8s"]
+size = Vector2(130, 128)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_ivqf0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_l0mf5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lqf8s")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(65, 0)
+target_position = Vector2(500, 2.08165e-12)
+collide_with_areas = true

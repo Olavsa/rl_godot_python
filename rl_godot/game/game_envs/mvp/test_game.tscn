@@ -1,0 +1,131 @@
+[gd_scene load_steps=4 format=3 uid="uid://425u8bkjqly6"]
+
+[ext_resource type="PackedScene" uid="uid://cvrg7i2gscjjn" path="res://game/game_envs/mvp/goal.tscn" id="1_l1yi8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m77ju"]
+size = Vector2(20.1768, 42.2851)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sktmj"]
+size = Vector2(40.1973, 39.9553)
+
+[node name="TestGameMVP" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -1491.0
+offset_top = -620.0
+offset_right = 1093.0
+offset_bottom = 29.0
+scale = Vector2(2.04, 2.96)
+color = Color(1, 0.763986, 0.473322, 1)
+
+[node name="Goal" parent="." groups=["goal"] instance=ExtResource("1_l1yi8")]
+position = Vector2(2461, 59)
+scale = Vector2(0.359998, 4.99246)
+collision_mask = 2
+script = null
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(103, 405)
+scale = Vector2(60.58, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Obstacle" type="StaticBody2D" parent="." groups=["obstacle"]]
+position = Vector2(550, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="Obstacle"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="Obstacle"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Obstacle2" type="StaticBody2D" parent="." groups=["obstacle"]]
+position = Vector2(1001, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="Obstacle2"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle2"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="Obstacle2"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle2/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Obstacle3" type="StaticBody2D" parent="." groups=["obstacle"]]
+position = Vector2(1474, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="Obstacle3"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle3"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="Obstacle3"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle3/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Obstacle4" type="StaticBody2D" parent="." groups=["obstacle"]]
+position = Vector2(2006, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="Obstacle4"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle4"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="Obstacle4"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle4/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[connection signal="area_entered" from="Obstacle/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Obstacle2/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Obstacle3/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Obstacle4/Area2D" to="." method="_on_area_2d_area_entered"]
