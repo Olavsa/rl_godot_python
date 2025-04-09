@@ -21,7 +21,7 @@ else:
     model = PPO("MultiInputPolicy", env, verbose=1)
 
 # Train the model (continue training if loaded)
-model.learn(total_timesteps=2048)
+model.learn(total_timesteps=2048 * 1)
 
 # Save the trained model
 model.save("ppo_godot_motorcycle_agent_2")

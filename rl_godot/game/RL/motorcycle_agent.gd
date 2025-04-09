@@ -47,11 +47,13 @@ func get_observation():
 	obs.append(int(motorcycle.hit_head))
 	obs.append(int(motorcycle.is_finished))
 	
+	#print(obs.size())
+	
 	return obs
 
 
 func set_actions(_actions: Array):
-	print("Received actions: ", _actions)
+	#print("Received actions: ", _actions)
 	
 	do_nothing = _actions[0]
 	forward = _actions[1]

@@ -22,6 +22,7 @@ var goal_reached = false
 var is_finished = false
 
 func _ready() -> void:
+	set_physics_process(false)
 	raycasts = get_tree().get_nodes_in_group("raycast")
 	wheels = get_tree().get_nodes_in_group("wheel")
 	previous_position_x = global_position.x
@@ -44,6 +45,9 @@ func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	get_raycast_info()
 	
+	if global_position.y > 1000:
+		is_truncated() 
+	
 func get_raycast_info():
 	var raycast_info = []
 	
@@ -61,7 +65,7 @@ func get_raycast_info():
 
 
 func reset():
-	print("Reset")
+	#print("Reset")
 	# Restore main body state
 	position = initial_state["position"]
 	rotation = initial_state["rotation"]
@@ -114,7 +118,7 @@ func player_hit_head():
 	agent.set_is_done(true)
 	
 func goal_is_reached():
-	print("goal")
+	#print("goal")
 	is_finished = true
 	goal_reached = true
 	hit_head = false
@@ -122,7 +126,7 @@ func goal_is_reached():
 	agent.set_is_done(true)
 	
 func handle_movement(delta):
-	print("AGENT VALUES LIVE:", agent.forward, agent.backward, agent.lean_right, agent.lean_left)	
+	#print("AGENT VALUES LIVE:", agent.forward, agent.backward, agent.lean_right, agent.lean_left)	
 	if Input.is_action_pressed("ui_up") or agent.forward:
 		for wheel in wheels:
 			if wheel.angular_velocity < max_speed:

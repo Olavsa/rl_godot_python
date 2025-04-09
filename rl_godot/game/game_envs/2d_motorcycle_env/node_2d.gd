@@ -22,7 +22,8 @@ func _physics_process(delta: float) -> void:
 	if t1 == -1:
 		t1 = Time.get_ticks_msec()
 	elif Engine.get_physics_frames() % (t * 60) == 0:
-		print($Motorcycle.global_position)
+		#print($Motorcycle.global_position)
 		var real_engine_speed = (t * 1000.0) / (Time.get_ticks_msec() - t1)
 		t1 = Time.get_ticks_msec()
-		print("engine speed approx: %.1f" % real_engine_speed)
+		
+		("engine speed approx: %.1f" % real_engine_speed)
