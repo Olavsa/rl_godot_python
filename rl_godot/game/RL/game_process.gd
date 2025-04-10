@@ -83,9 +83,6 @@ func get_observation() -> Array:
 func step(payloads: Array):
 	set_input_actions(payloads)
 	unpause()
-	
-	var obs = await get_observation()
-	return obs
 
 
 func set_input_actions(payloads: Array):
