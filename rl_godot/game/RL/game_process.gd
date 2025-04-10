@@ -38,14 +38,13 @@ func _ready() -> void:
 # This makes it possible to train with fferent engine speeds and have consistent behavior.
 var frame_counter = 0
 func _physics_process(_delta):
-	if paused:
+	if human_mode:
 		return
-	
+		
 	frame_counter += 1
-	if not human_mode:
-		if agent.get_is_done() or frame_counter >= frames_per_step:
-			frame_counter = 0
-			pause()
+	if agent.get_is_done() or frame_counter >= frames_per_step:
+		frame_counter = 0
+		pause()
 
 
 
@@ -76,7 +75,6 @@ func get_observation() -> Array:
 	## Collect observation data from the game process.
 	# Waits for game process to pause after specified number of steps: frames_per_step.
 	# Then gathers and returns new observation from game instance.
-	
 	if not paused:
 		await game_paused
 	var obs: Array = agent.get_observation()
@@ -97,16 +95,17 @@ func set_input_actions(payloads: Array):
 
 # ** Pause and unpause game process.
 func pause():
+	#set_physics_process(false)
+	#agent.pause()
 	paused = true
-	set_physics_process(false)
-	agent.pause()
+	get_tree().paused = true
 	
 	emit_signal("game_paused")
 	
 func unpause():
-	#print("unpause")
+	#set_physics_process(true)
 	paused = false
-	set_physics_process(true)
+	get_tree().paused = false
 	agent.unpause()
 
 
