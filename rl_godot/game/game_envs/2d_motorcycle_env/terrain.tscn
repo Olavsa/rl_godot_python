@@ -15,7 +15,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
-scroll_offset = Vector2(0, -275)
+scroll_offset = Vector2(18, -562)
 repeat_size = Vector2(3000, 0)
 autoscroll = Vector2(-50, 0)
 

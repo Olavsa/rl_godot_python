@@ -18,7 +18,7 @@ radius = 8.05022
 height = 53.1839
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwp7t"]
-radius = 56.014
+radius = 70.0
 
 [node name="Motorcycle" type="RigidBody2D"]
 script = ExtResource("1_d2igr")
@@ -112,7 +112,7 @@ texture = ExtResource("3_j12mk")
 [node name="Area2D" type="Area2D" parent="Head"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Area2D"]
-position = Vector2(1, -69)
+position = Vector2(-2, -65)
 scale = Vector2(1, 0.8)
 shape = SubResource("CircleShape2D_xwp7t")
 debug_color = Color(0.80512, 0.342818, 0.613798, 0.42)
@@ -175,76 +175,52 @@ scale = Vector2(0.25763, 0.676027)
 skew = -0.346732
 texture = ExtResource("2_q738h")
 
-[node name="Raycasts" type="Node2D" parent="." groups=["raycast"]]
-
-[node name="RayCast2D" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -1.15756
+[node name="RayCast2D" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -1.40682
 scale = Vector2(1, 13.1575)
+target_position = Vector2(-235.258, 138.695)
 
-[node name="RayCast2D2" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -1.36575
+[node name="RayCast2D2" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(187, -33)
+rotation = -0.299977
 scale = Vector2(1, 13.1575)
+target_position = Vector2(148.788, 103.101)
 
-[node name="RayCast2D3" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -1.56802
+[node name="RayCast2D3" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
 scale = Vector2(1, 13.1575)
+target_position = Vector2(1770.79, 71.0446)
 
-[node name="RayCast2D4" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -1.79683
+[node name="RayCast2D4" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
 scale = Vector2(1, 13.1575)
+target_position = Vector2(1119.06, -77.4597)
 
-[node name="RayCast2D5" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -2.08898
+[node name="RayCast2D5" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
 scale = Vector2(1, 13.1575)
+target_position = Vector2(-588.881, -136.323)
 
-[node name="RayCast2D6" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -2.37291
+[node name="RayCast2D6" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
 scale = Vector2(1, 13.1575)
+target_position = Vector2(-2006.24, -85.9918)
 
-[node name="RayCast2D7" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -2.77761
+[node name="RayCast2D7" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-186, -39)
+rotation = -0.803665
 scale = Vector2(1, 13.1575)
+target_position = Vector2(-1296.7, 25.0211)
 
-[node name="RayCast2D8" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -3.20927
+[node name="RayCast2D8" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-9.99999, 38)
+rotation = -0.803665
 scale = Vector2(1, 13.1575)
-
-[node name="RayCast2D9" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -3.7067
-scale = Vector2(1, 13.1575)
-
-[node name="RayCast2D10" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -4.03609
-scale = Vector2(1, 13.1575)
-
-[node name="RayCast2D11" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -4.31857
-scale = Vector2(1, 13.1575)
-
-[node name="RayCast2D12" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -4.31857
-scale = Vector2(1, 13.1575)
-
-[node name="RayCast2D13" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -4.74011
-scale = Vector2(1, 13.1575)
-
-[node name="RayCast2D14" type="RayCast2D" parent="Raycasts" groups=["raycast"]]
-position = Vector2(-23, -175)
-rotation = -5.07708
-scale = Vector2(1, 13.1575)
+target_position = Vector2(-1065.02, 76.2447)
 
 [connection signal="body_entered" from="Head/Area2D" to="." method="_on_area_2d_body_entered"]

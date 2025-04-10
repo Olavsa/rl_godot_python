@@ -28,33 +28,14 @@ func get_observation():
 	for ray_distance in motorcycle.get_raycast_info():
 		obs.append(clamp(ray_distance / 1000.0, 0.0, 1.0))
 
-	for wheel in motorcycle.wheels:
-		obs.append(abs(wheel.global_position.x) / 1000.0)
-		obs.append(abs(wheel.global_position.y) / 1000.0)
-
-	for wheel in motorcycle.wheels:
-		obs.append(abs(wheel.linear_velocity.x) / 100.0)
-		obs.append(abs(wheel.linear_velocity.y) / 100.0)
-
-	for wheel in motorcycle.wheels:
-		obs.append(abs(wheel.angular_velocity) / 10.0)
-
-	for wheel in motorcycle.wheels:
-		obs.append(abs(wheel.rotation) / PI)
-
-	obs.append(int(motorcycle.truncated))
+	obs.append(int(motorcycle.is_done))
 	obs.append(int(motorcycle.goal_reached))
-	obs.append(int(motorcycle.hit_head))
-	obs.append(int(motorcycle.is_finished))
-	
-	#print(obs.size())
 	
 	return obs
 
 
 func set_actions(_actions: Array):
 	#print("Received actions: ", _actions)
-	
 	do_nothing = _actions[0]
 	forward = _actions[1]
 	backward = _actions[2]

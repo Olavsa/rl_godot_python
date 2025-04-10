@@ -13,6 +13,7 @@ var terrain = []
 var grass_texture = preload("res://game/game_envs/2d_motorcycle_env/Images/Terrain/Grass.png")
 var dirt_texture = preload("res://game/game_envs/2d_motorcycle_env/Images/Terrain/DirtBG.png")
 
+var terrain_y_offset = 300
 var leftmost_x = 0
 var rightmost_x = 0
 
@@ -21,7 +22,7 @@ func _ready() -> void:
 	screensize = get_viewport().get_visible_rect().size
 	terrain.clear()
 
-	var start_y = screensize.y * 3 / 4 + (-hill_height_range + randi() % hill_height_range * 2)
+	var start_y = motorcycle.position.y + terrain_y_offset
 	var start_point = Vector2(0, start_y)
 	terrain.append(start_point)
 

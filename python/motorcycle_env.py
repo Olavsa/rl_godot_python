@@ -15,7 +15,7 @@ class MotorcycleEnv(gym.Env):
         """Initialize the environment and connect to the Godot server."""
         self.render_mode = render_mode
         self.tcp_client = SyncTCPClient()
-# observation format: [dist_to_obstacle, distance_traveled, is_finished]
+        # Observation format: [dist_to_obstacle, distance_traveled, is_finished]
         # Observation variables
 
         # Bike information
@@ -36,35 +36,10 @@ class MotorcycleEnv(gym.Env):
         self._raycast6 = 0
         self._raycast7 = 0
         self._raycast8 = 0
-        self._raycast9 = 0
-        self._raycast10 = 0
-        self._raycast11 = 0
-        self._raycast12 = 0
-        self._raycast13 = 0
-        self._raycast14 = 0
-        
-        # Wheels
-        self._wheel_1_position_x = 0
-        self._wheel_1_position_y = 0
-        self._wheel_2_position_x = 0
-        self._wheel_2_position_y = 0
-
-        self._wheel_1_linear_velocity_x = 0
-        self._wheel_1_linear_velocity_y = 0
-        self._wheel_2_linear_velocity_x = 0
-        self._wheel_2_linear_velocity_y = 0
-
-        self._wheel_1_angular_velocity = 0
-        self._wheel_2_angular_velocity = 0
-
-        self._wheel_1_rotation = 0
-        self._wheel_2_rotation = 0
 
         # Flags
-        self._is_truncated = 0
+        self._is_done = 0
         self._goal_reached = 0
-        self._hit_head = 0
-        self._is_finished = 0
 
 
 
@@ -87,33 +62,9 @@ class MotorcycleEnv(gym.Env):
                 "raycast6": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
                 "raycast7": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
                 "raycast8": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "raycast9": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "raycast10": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "raycast11": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "raycast12": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "raycast13": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "raycast14": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-
-                "wheel_1_position_x": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_1_position_y": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_2_position_x": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_2_position_y": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-
-                "wheel_1_linear_velocity_x": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_1_linear_velocity_y": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_2_linear_velocity_x": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_2_linear_velocity_y": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-
-                "wheel_1_angular_velocity": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_2_angular_velocity": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-
-                "wheel_1_rotation": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
-                "wheel_2_rotation": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
                 
-                "is_truncated": gym.spaces.Discrete(2),
-                "goal_reached": gym.spaces.Discrete(2),
-                "hit_head": gym.spaces.Discrete(2),
-                "is_finished": gym.spaces.Discrete(2)
+                "is_done": gym.spaces.Discrete(2),
+                "goal_reached": gym.spaces.Discrete(2)
             }
         )
 
@@ -127,7 +78,7 @@ class MotorcycleEnv(gym.Env):
             3: [0, 0, 1, 0, 0],  # Lean right
             4: [0, 0, 0, 1, 0],  # Lean left
         }
-  
+
         
     def _get_obs(self):
         """Return the current observation as a dictionary."""
@@ -148,33 +99,9 @@ class MotorcycleEnv(gym.Env):
                 "raycast6": np.array([self._raycast6], dtype=np.float32),
                 "raycast7": np.array([self._raycast7], dtype=np.float32),
                 "raycast8": np.array([self._raycast8], dtype=np.float32),
-                "raycast9": np.array([self._raycast9], dtype=np.float32),
-                "raycast10": np.array([self._raycast10], dtype=np.float32),
-                "raycast11": np.array([self._raycast11], dtype=np.float32),
-                "raycast12": np.array([self._raycast12], dtype=np.float32),
-                "raycast13": np.array([self._raycast13], dtype=np.float32),
-                "raycast14": np.array([self._raycast14], dtype=np.float32),
 
-                "wheel_1_position_x": np.array([self._wheel_1_position_x], dtype=np.float32),
-                "wheel_1_position_y": np.array([self._wheel_1_posistion_y], dtype=np.float32),
-                "wheel_2_position_x": np.array([self._wheel_2_posistion_x], dtype=np.float32),
-                "wheel_2_position_y": np.array([self._wheel_2_posistion_y], dtype=np.float32),
-
-                "wheel_1_linear_velocity_x": np.array([self._wheel_1_linear_velocity_x], dtype=np.float32),
-                "wheel_1_linear_velocity_y": np.array([self._wheel_1_linear_velocity_y], dtype=np.float32),
-                "wheel_2_linear_velocity_x": np.array([self._wheel_2_linear_velocity_x], dtype=np.float32),
-                "wheel_2_linear_velocity_y": np.array([self._wheel_2_linear_velocity_y], dtype=np.float32),
-
-                "wheel_1_angular_velocity": np.array([self._wheel_1_angular_velocity], dtype=np.float32),
-                "wheel_2_angular_velocity": np.array([self._wheel_2_angular_velocity], dtype=np.float32),
-
-                "wheel_1_rotation": np.array([self._wheel_1_rotation], dtype=np.float32),
-                "wheel_2_rotation": np.array([self._wheel_2_rotation], dtype=np.float32),
-                
-                "is_truncated": int(self._is_truncated),
+                "is_done": int(self._is_done),
                 "goal_reached": int(self._goal_reached),
-                "hit_head": int(self._hit_head),
-                "is_finished": int(self._is_finished),
             }
     
     
@@ -198,39 +125,10 @@ class MotorcycleEnv(gym.Env):
         self._raycast6 = observation_dict.get("p13", 0)
         self._raycast7 = observation_dict.get("p14", 0)
         self._raycast8 = observation_dict.get("p15", 0)
-        self._raycast9 = observation_dict.get("p16", 0)
-        self._raycast10 = observation_dict.get("p17", 0)
-        self._raycast11 = observation_dict.get("p18", 0)
-        self._raycast12 = observation_dict.get("p19", 0)
-        self._raycast13 = observation_dict.get("p20", 0)
-        self._raycast14 = observation_dict.get("p21", 0)
-
-        # Wheels - posistion
-        self._wheel_1_posistion_x = observation_dict.get("p22", 0)
-        self._wheel_1_posistion_y = observation_dict.get("p23", 0)
-        self._wheel_2_posistion_x = observation_dict.get("p24", 0)
-        self._wheel_2_posistion_y = observation_dict.get("p25", 0)
-
-
-        # Wheels - linear velocities
-        self._wheel_1_linear_velocity_x = observation_dict.get("p26", 0)
-        self._wheel_1_linear_velocity_y = observation_dict.get("p27", 0)
-        self._wheel_2_linear_velocity_x = observation_dict.get("p28", 0)
-        self._wheel_2_linear_velocity_y = observation_dict.get("p29", 0)
-
-        # Wheels - angular velocities
-        self._wheel_1_angular_velocity = observation_dict.get("p30", 0)
-        self._wheel_2_angular_velocity = observation_dict.get("p31", 0)
-
-        # Wheels - rotation
-        self._wheel_1_rotation = observation_dict.get("p32", 0)
-        self._wheel_2_rotation = observation_dict.get("p33", 0)
 
         # Flags
-        self._is_truncated = observation_dict.get("p34", 0)
-        self._goal_reached = observation_dict.get("p35", 0)
-        self._hit_head = observation_dict.get("p36", 0)
-        self._is_finished = observation_dict.get("p37", 0)
+        self._is_done = observation_dict.get("p16", 0)
+        self._goal_reached = observation_dict.get("p17", 0)
 
 
     def reset(self, seed=None, options=None):
@@ -240,12 +138,12 @@ class MotorcycleEnv(gym.Env):
 
         # Update state
         self._update_state(observation_dict)
-
         return self._get_obs(), {}
     
 
     def step(self, action):
         """Send an action to Godot and receive the next observation."""
+
         move = self._action_to_inputs[action] 
         #print(f"Action selected: {action} → Move sent to Godot: {move}")
 
@@ -256,16 +154,34 @@ class MotorcycleEnv(gym.Env):
         self._update_state(observation_dict)
 
         # Compute reward and termination
-        terminated = self._is_finished == 1
-        truncated = self._is_truncated == 1
-        hit_head = self._hit_head == 1
+        terminated = truncated = self._is_done == 1
 
+        if self._is_done == 1:
+            terminated = 1
+            truncated = 1
 
-        reward = 0.02 * self._distance_traveled
-
-        if (self._is_finished or self._is_truncated or hit_head) and not self._goal_reached:
-            reward = -1
+        reward = self.compute_reward()
+            
         return self._get_obs(), reward, terminated, truncated, {}
+    
+    def compute_reward(self):
+        reward = 0
+
+        reward += 5 * self._distance_traveled 
+
+        # Crash-penalty
+        if self._is_done and not self._goal_reached:
+            reward -= 20.0
+
+        # Goal reached
+        if self._goal_reached:
+            reward += 50.0
+        
+        # Small idling penalty
+        if abs(self._linear_velocity_x) < 5:
+            reward -= 0.1
+
+        return reward
     
     
     def close(self):

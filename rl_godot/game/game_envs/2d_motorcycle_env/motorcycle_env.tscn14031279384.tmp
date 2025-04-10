@@ -11,22 +11,17 @@
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7u4lj")
-human_mode = false
-engine_speed = 1000.0
-should_render = false
 
 [node name="ServerTCP" parent="." instance=ExtResource("2_nl6o2")]
 
 [node name="GameProcess" parent="." instance=ExtResource("3_t8qpx")]
 
 [node name="Terrain" parent="GameProcess" instance=ExtResource("4_t8qpx")]
-hill_height_range = 250
-hill_width_multiplier = 2.5
+hill_height_range = 200
 depth_offset = 1000
 
 [node name="Motorcycle" parent="GameProcess" instance=ExtResource("5_mpinc")]
 position = Vector2(2607, -562)
-distance_to_goal = 1600
 
 [node name="Camera2D" type="Camera2D" parent="GameProcess/Motorcycle"]
 position = Vector2(239, -74)

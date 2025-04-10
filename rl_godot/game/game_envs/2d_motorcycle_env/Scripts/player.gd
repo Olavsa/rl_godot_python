@@ -5,7 +5,7 @@ var raycasts = []
 var speed = 600000
 var max_speed = 50
 var body_torque_impulse_force = 0.4
-var distance_to_goal = 1000
+@export var distance_to_goal = 300
 var truncate_counter = 0
 var truncate_limit = 3
 
@@ -15,11 +15,12 @@ var truncate_limit = 3
 
 var initial_state = {} 
 var distance_traveled = 0
+var distance_check = 0
 var previous_position_x = 0.0
-var truncated = false
-var hit_head = false
 var goal_reached = false
-var is_finished = false
+var is_done = false
+
+var backward_distance_limit = -200
 
 func _ready() -> void:
 	raycasts = get_tree().get_nodes_in_group("raycast")
@@ -31,9 +32,7 @@ func _ready() -> void:
 		"rotation": rotation,
 		"linear_velocity": Vector2.ZERO,
 		"angular_velocity": 0.0,
-		"truncated": false,
-		"hit_head": false,
-		"is_finished": false,
+		"is_done": false,
 		"goal_reached": false
 	}
 	
@@ -42,7 +41,6 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
-	get_raycast_info()
 	
 	if global_position.y > 1000:
 		is_truncated() 
@@ -64,19 +62,16 @@ func get_raycast_info():
 
 
 func reset():
-	#print("Reset")
 	# Restore main body state
 	position = initial_state["position"]
 	rotation = initial_state["rotation"]
 	linear_velocity = initial_state["linear_velocity"]
 	angular_velocity = initial_state["angular_velocity"]
+	distance_traveled = initial_state["distance_traveled"]
 	
 	# Reset flags
-	hit_head = initial_state["hit_head"]
-	distance_traveled = initial_state["distance_traveled"]
 	goal_reached = initial_state["goal_reached"]
-	is_finished = initial_state["is_finished"]
-	truncated = initial_state["truncated"]
+	is_done = initial_state["is_done"]
 	
 	# Reset wheels
 	reset_wheels()
@@ -103,25 +98,21 @@ func reset_child_bodies():
 	upper_body.rotation = 0
 	
 func is_truncated():
-	truncated = true
-	hit_head = false
-	is_finished = true
+	distance_check = 0
+	is_done = true
 	goal_reached = false
 	agent.set_is_done(true)
 
 func player_hit_head():
-	hit_head = true
-	is_finished = true
+	distance_check = 0
+	is_done = true
 	goal_reached = false
-	truncated = false
 	agent.set_is_done(true)
 	
 func goal_is_reached():
-	#print("goal")
-	is_finished = true
+	distance_check = 0
+	is_done = true
 	goal_reached = true
-	hit_head = false
-	truncated = false
 	agent.set_is_done(true)
 	
 func handle_movement(delta):
@@ -156,6 +147,7 @@ func handle_movement(delta):
 	distance_traveled += round(delta_position_x / 10)
 	distance_traveled += 10
 	
+	distance_check += round(delta_position_x / 10)
 	
 	if old_distance_traveled == distance_traveled:
 		truncate_counter += 0.01
@@ -165,10 +157,13 @@ func handle_movement(delta):
 
 	if truncate_counter >= truncate_limit:
 		is_truncated()
-		pass
 	
-	if distance_traveled > distance_to_goal:
+	if distance_check > distance_to_goal:
+		print("goal!")
 		goal_is_reached()
+		
+	if distance_check < backward_distance_limit:
+		is_truncated()
 	
 	previous_position_x = current_position_x
 
