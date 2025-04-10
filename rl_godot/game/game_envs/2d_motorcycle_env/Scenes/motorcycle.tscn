@@ -18,7 +18,7 @@ radius = 8.05022
 height = 53.1839
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwp7t"]
-radius = 52.0601
+radius = 56.014
 
 [node name="Motorcycle" type="RigidBody2D"]
 script = ExtResource("1_d2igr")
@@ -105,14 +105,14 @@ scale = Vector2(1, 0.8)
 shape = SubResource("CircleShape2D_xwp7t")
 
 [node name="Sprite2D" type="Sprite2D" parent="Head"]
-position = Vector2(-3, -64)
-scale = Vector2(0.7, 0.7)
+position = Vector2(2, -56)
+scale = Vector2(0.154382, 0.154382)
 texture = ExtResource("3_j12mk")
 
 [node name="Area2D" type="Area2D" parent="Head"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Area2D"]
-position = Vector2(-2, -63)
+position = Vector2(1, -69)
 scale = Vector2(1, 0.8)
 shape = SubResource("CircleShape2D_xwp7t")
 debug_color = Color(0.80512, 0.342818, 0.613798, 0.42)

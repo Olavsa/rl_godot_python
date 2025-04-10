@@ -17,6 +17,8 @@ script = ExtResource("1_7u4lj")
 [node name="GameProcess" parent="." instance=ExtResource("3_t8qpx")]
 
 [node name="Terrain" parent="GameProcess" instance=ExtResource("4_t8qpx")]
+points_per_hill = null
+hill_width_multiplier = null
 depth_offset = 1000
 
 [node name="Motorcycle" parent="GameProcess" instance=ExtResource("5_mpinc")]

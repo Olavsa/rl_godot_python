@@ -22,7 +22,6 @@ var goal_reached = false
 var is_finished = false
 
 func _ready() -> void:
-	set_physics_process(false)
 	raycasts = get_tree().get_nodes_in_group("raycast")
 	wheels = get_tree().get_nodes_in_group("wheel")
 	previous_position_x = global_position.x
