@@ -6,8 +6,7 @@ var speed = 600000
 var max_speed = 50
 var body_torque_impulse_force = 0.4
 @export var distance_to_goal = 300
-var truncate_counter = 0
-var truncate_limit = 3
+@export var idle_limit = 2.0 # seconds of idle time before truncation
 
 @onready var head: RigidBody2D = $Head
 @onready var upper_body: RigidBody2D = $UpperBody
@@ -19,7 +18,9 @@ var distance_check = 0
 var previous_position_x = 0.0
 var goal_reached = false
 var is_done = false
+var moving_left = false
 
+var idle_time = 0.0
 var backward_distance_limit = -200
 
 func _ready() -> void:
@@ -33,7 +34,8 @@ func _ready() -> void:
 		"linear_velocity": Vector2.ZERO,
 		"angular_velocity": 0.0,
 		"is_done": false,
-		"goal_reached": false
+		"goal_reached": false,
+		"moving_left": false
 	}
 	
 	process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -41,6 +43,7 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
+
 	
 	if global_position.y > 1000:
 		is_truncated() 
@@ -72,6 +75,7 @@ func reset():
 	# Reset flags
 	goal_reached = initial_state["goal_reached"]
 	is_done = initial_state["is_done"]
+	moving_left = initial_state["moving_left"]
 	
 	# Reset wheels
 	reset_wheels()
@@ -99,6 +103,7 @@ func reset_child_bodies():
 	
 func is_truncated():
 	distance_check = 0
+	idle_time = 0
 	is_done = true
 	goal_reached = false
 	agent.set_is_done(true)
@@ -110,63 +115,62 @@ func player_hit_head():
 	agent.set_is_done(true)
 	
 func goal_is_reached():
+	print("Goal")
 	distance_check = 0
 	is_done = true
 	goal_reached = true
 	agent.set_is_done(true)
 	
 func handle_movement(delta):
-	#print("AGENT VALUES LIVE:", agent.forward, agent.backward, agent.lean_right, agent.lean_left)	
 	if Input.is_action_pressed("ui_up") or agent.forward:
 		for wheel in wheels:
 			if wheel.angular_velocity < max_speed:
 				wheel.apply_torque_impulse(speed * delta)
-	
+
 	if Input.is_action_pressed("ui_left") or agent.lean_left:
 		head.apply_torque_impulse(-speed * body_torque_impulse_force * delta)
 		upper_body.apply_torque_impulse(-speed * body_torque_impulse_force * delta)
-		
+
 	if Input.is_action_pressed("ui_right") or agent.lean_right:
 		head.apply_torque_impulse(body_torque_impulse_force * speed * delta)
 		upper_body.apply_torque_impulse(body_torque_impulse_force * speed * delta)
-	
-	if Input.is_action_pressed("ui_down") or agent.backward :
+
+	if Input.is_action_pressed("ui_down") or agent.backward:
 		for wheel in wheels:
 			if wheel.angular_velocity > -max_speed:
 				wheel.apply_torque_impulse(-speed * delta)
-	
-	
-	# Update distance traveled (right increases, left decreases)
-	distance_traveled = 0
-	
+
+	# Movement and direction tracking
 	var current_position_x = global_position.x
 	var delta_position_x = current_position_x - previous_position_x
-	
-	var old_distance_traveled = distance_traveled 
-	
-	distance_traveled += round(delta_position_x / 10)
-	distance_traveled += 10
-	
+
+	# Direction flag
+	moving_left = delta_position_x < 0
+
+	# Update distance_traveled: record max position to the right
+	if current_position_x > distance_traveled:
+		distance_traveled = round(current_position_x / 100) - 25
+
+	# Distance check for goal purposes
 	distance_check += round(delta_position_x / 10)
-	
-	if old_distance_traveled == distance_traveled:
-		truncate_counter += 0.01
+
+	if abs(delta_position_x) < 4:
+		idle_time += delta
 	else:
-		truncate_counter = 0
+		idle_time = 0.0
 
-
-	if truncate_counter >= truncate_limit:
+	if idle_time >= idle_limit:
 		is_truncated()
 	
 	if distance_check > distance_to_goal:
-		print("goal!")
 		goal_is_reached()
-		
+
 	if distance_check < backward_distance_limit:
 		is_truncated()
-	
+
 	previous_position_x = current_position_x
 
+		
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		player_hit_head()

@@ -141,7 +141,7 @@ softness = 1.5
 position = Vector2(108, 55)
 node_a = NodePath("..")
 node_b = NodePath("Wheel")
-softness = 2.0
+softness = 0.5
 
 [node name="Wheel" parent="WheelHolderFront" instance=ExtResource("2_nv2oj")]
 

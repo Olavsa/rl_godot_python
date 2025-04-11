@@ -25,3 +25,6 @@ layout_mode = 2
 
 [node name="EngineSpeedCounter" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
+
+[node name="Reward" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2

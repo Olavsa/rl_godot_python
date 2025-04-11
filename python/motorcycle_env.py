@@ -15,6 +15,11 @@ class MotorcycleEnv(gym.Env):
         """Initialize the environment and connect to the Godot server."""
         self.render_mode = render_mode
         self.tcp_client = SyncTCPClient()
+
+        self._previous_distance_traveled = 0.0
+        self._delta_distance = 0.0
+        self._previous_linear_velocity_x = 0.0
+
         # Observation format: [dist_to_obstacle, distance_traveled, is_finished]
         # Observation variables
 
@@ -40,6 +45,7 @@ class MotorcycleEnv(gym.Env):
         # Flags
         self._is_done = 0
         self._goal_reached = 0
+        self._moving_left = 0
 
 
 
@@ -64,7 +70,8 @@ class MotorcycleEnv(gym.Env):
                 "raycast8": gym.spaces.Box(-1.1, 10000.0, shape=(1,), dtype=np.float32),
                 
                 "is_done": gym.spaces.Discrete(2),
-                "goal_reached": gym.spaces.Discrete(2)
+                "goal_reached": gym.spaces.Discrete(2),
+                "moving_left": gym.spaces.Discrete(2)
             }
         )
 
@@ -102,12 +109,12 @@ class MotorcycleEnv(gym.Env):
 
                 "is_done": int(self._is_done),
                 "goal_reached": int(self._goal_reached),
+                "moving_left": int(self._moving_left),
             }
     
     
     def _update_state(self, observation_dict):
         """Update internal environment state based on received observation."""
-
         self._distance_traveled = observation_dict.get("p1", 0.0)
         self._position_x = observation_dict.get("p2", 0)
         self._position_y = observation_dict.get("p3", 0)
@@ -129,6 +136,7 @@ class MotorcycleEnv(gym.Env):
         # Flags
         self._is_done = observation_dict.get("p16", 0)
         self._goal_reached = observation_dict.get("p17", 0)
+        self._moving_left = observation_dict.get("p18", 0)
 
 
     def reset(self, seed=None, options=None):
@@ -138,6 +146,10 @@ class MotorcycleEnv(gym.Env):
 
         # Update state
         self._update_state(observation_dict)
+
+        self._previous_distance_traveled = self._distance_traveled
+        self._previous_linear_velocity_x = self._linear_velocity_x
+
         return self._get_obs(), {}
     
 
@@ -156,6 +168,14 @@ class MotorcycleEnv(gym.Env):
         # Compute reward and termination
         terminated = truncated = self._is_done == 1
 
+        self._delta_distance = self._distance_traveled - self._previous_distance_traveled
+        self._previous_distance_traveled = self._distance_traveled
+
+        self._delta_velocity_x = self._linear_velocity_x - self._previous_linear_velocity_x
+        self._previous_linear_velocity_x = self._linear_velocity_x
+
+
+
         if self._is_done == 1:
             terminated = 1
             truncated = 1
@@ -165,23 +185,30 @@ class MotorcycleEnv(gym.Env):
         return self._get_obs(), reward, terminated, truncated, {}
     
     def compute_reward(self):
-        reward = 0
+        reward = 0.0
 
-        reward += 5 * self._distance_traveled 
+        # Reward based on delta distance
+        reward += 5.0 * self._delta_distance
 
-        # Crash-penalty
+        # Penalty for moving left
+        if self._delta_distance < 0:
+            reward += 3.0 * self._delta_distance  # note: delta is negative, so this subtracts
+            
+
+        # Bonus reward for increasing velocity to the right
+        if self._delta_velocity_x > -0.4 and not self._moving_left:
+            reward += 1.0 * self._delta_velocity_x
+
+        # Crash penalty
         if self._is_done and not self._goal_reached:
             reward -= 20.0
 
-        # Goal reached
+        # Goal reward
         if self._goal_reached:
-            reward += 50.0
-        
-        # Small idling penalty
-        if abs(self._linear_velocity_x) < 5:
-            reward -= 0.1
+            reward += 100.0
 
         return reward
+
     
     
     def close(self):

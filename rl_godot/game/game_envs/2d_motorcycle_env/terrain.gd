@@ -13,7 +13,7 @@ var terrain = []
 var grass_texture = preload("res://game/game_envs/2d_motorcycle_env/Images/Terrain/Grass.png")
 var dirt_texture = preload("res://game/game_envs/2d_motorcycle_env/Images/Terrain/DirtBG.png")
 
-var terrain_y_offset = 300
+var terrain_y_offset = 400
 var leftmost_x = 0
 var rightmost_x = 0
 

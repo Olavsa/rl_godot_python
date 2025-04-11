@@ -1,5 +1,5 @@
 import os
-from stable_baselines3 import DQN
+from stable_baselines3 import PPO
 from stable_baselines3.common.env_checker import check_env
 from motorcycle_env import MotorcycleEnv  # Ensure you import your environment correctly
 
@@ -10,22 +10,27 @@ env = MotorcycleEnv(render_mode="human")
 #check_env(env, warn=True)
 
 # Define model filename
-model_path = "DQN_godot_motorcycle_agent.zip"
+model_path = "PPO_godot_motorcycle_agent.zip"
 
 # Load existing model if available, otherwise initialize a new one
 if os.path.exists(model_path):
     print("Loading existing model...")
-    model = DQN.load(model_path, env=env)  # Load with the same environment
+    model = PPO.load(model_path, env=env)  # Load with the same environment
 else:
     print("No existing model found. Creating new one...")
-    model = DQN("MultiInputPolicy", env, verbose=1)
+    model = PPO("MultiInputPolicy", env, verbose=1)
 
 # Train the model (continue training if loaded)
-model.learn(total_timesteps=2048*200)
+num_iterations = 1
+timesteps_per_iter = 2048 * 1
 
-# Save the trained model
-model.save("DQN_godot_motorcycle_agent")
-print("Model saved successfully.")
+for i in range(num_iterations):
+    # Train the model (continue training if loaded)
+    print(f"Training iteration {i+1}/{num_iterations}...")
+    model.learn(total_timesteps=timesteps_per_iter, reset_num_timesteps=False)
+    # Save the trained model
+    model.save("PPO_godot_motorcycle_agent")
+    print("Model saved successfully.")
 
 # Close the environment
 env.close()

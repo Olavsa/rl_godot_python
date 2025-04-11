@@ -11,9 +11,8 @@ var lean_left = 0
 # ---------------- OVERRIDE THESE ---------------------------------
 func get_observation():
 	var obs = []
-	var safe_goal_distance = max(1.0, motorcycle.distance_to_goal)
 
-	obs.append(abs(motorcycle.distance_traveled) / safe_goal_distance)
+	obs.append(motorcycle.distance_traveled)
 
 	obs.append(abs(motorcycle.global_position.x) / 1000.0)
 	obs.append(abs(motorcycle.global_position.y) / 1000.0)
@@ -30,6 +29,7 @@ func get_observation():
 
 	obs.append(int(motorcycle.is_done))
 	obs.append(int(motorcycle.goal_reached))
+	obs.append(int(motorcycle.moving_left))
 	
 	return obs
 
