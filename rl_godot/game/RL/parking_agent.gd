@@ -87,7 +87,10 @@ func set_actions(_actions: Array):
 	
 	
 var ep_reward = 0.0
+var ep_counter = 0
 func reset():
+	ep_counter += 1
+	print("\nEpisode ", str(ep_counter))
 	ep_reward = 0.0
 	player.reset_car()
 	if random_pos:
@@ -95,14 +98,12 @@ func reset():
 		var dist_z = 10 * randf()
 		dist_x = -dist_x if randf() < 0.5 else dist_x
 		dist_z = -dist_z if randf() < 0.5 else dist_z
-		#print(dist_x, ", ", dist_z)
 		player.global_position.x += dist_x
 		player.global_position.z += dist_z
 	
 	if random_rotation:
 		var rotation = 2 * PI * randf()
 		player.rotate_y(rotation)
-		#print(rotation)
 	
 	done = false
 	truncated = false
@@ -147,15 +148,16 @@ func update_obs_dict():
 		print("PARKED!!!!!!!!!")
 		
 	if truncated:
-		reward -= 0.1
+		print("truncated")
+		reward -= 5
 
 	if collided:
+		done = true
 		collided = false
-		reward -= 1
+		reward -= 5
 		print("collided")
 	
 	var progress_reward = clamp(progress, -1, 1)
-	#print(progress_reward)
 	reward += progress_reward
 	
 	reward -= 0.001 # - reward for time to encourage finding the spot faster
