@@ -99,7 +99,7 @@ class ParkingEnv(gym.Env):
         # TODO: Define step
     def step(self, action):
         """Send an action to Godot and receive the next observation."""
-        move = tuple([int(action[0]), float(action[1])])
+        move = tuple([float(action[0]), float(action[1])])
 
         # Send action and wait for new observation
         observation_dict = self.tcp_client.step(move)
