@@ -64,7 +64,6 @@ class AsyncTCPClient:
             data_json_str = data.decode("utf-8")
             data_dict = json.loads(data_json_str)
             #print(f"Received {data_dict}")
-            
             return data_dict
 
         except asyncio.TimeoutError:

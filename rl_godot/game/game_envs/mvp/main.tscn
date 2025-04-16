@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://l0ev3vah46xp"]
 
-[ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://game/game_envs/mvp/main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://tcp/tcp_server_python.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://game/RL/game_process.tscn" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://cvrg7i2gscjjn" path="res://game/game_envs/mvp/goal.tscn" id="6_4c57u"]

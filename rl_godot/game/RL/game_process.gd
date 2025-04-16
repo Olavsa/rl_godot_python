@@ -18,7 +18,7 @@ var agent: Agent = null
 
 
 
-@export var paused = true # Pause at start
+var paused = false
 @export var frames_per_step = 8
 
 var active_inputs: PackedStringArray = [] # Current input actions received from python
@@ -38,12 +38,12 @@ func _ready() -> void:
 # This makes it possible to train with different engine speeds and have consistent behavior.
 var frame_counter = 0
 func _physics_process(_delta):
-	if paused:
+	if human_mode:
 		return
 	
-	frame_counter += 1
 	if not human_mode:
-		if agent.get_is_done() or frame_counter >= frames_per_step:
+		frame_counter += 1
+		if agent.get_is_done() or frame_counter > frames_per_step:
 			frame_counter = 0
 			pause()
 
@@ -79,15 +79,13 @@ func get_observation() -> Array:
 	
 	if not paused:
 		await game_paused
+		
 	var obs: Array = agent.get_observation()
 	return obs
 
 func step(payloads: Array):
 	set_input_actions(payloads)
 	unpause()
-	
-	var obs = await get_observation()
-	return obs
 
 
 func set_input_actions(payloads: Array):
@@ -97,17 +95,18 @@ func set_input_actions(payloads: Array):
 
 # ** Pause and unpause game process.
 func pause():
+	get_tree().paused = true
 	paused = true
-	set_physics_process(false)
-	agent.pause()
+	#set_physics_process(false)	
+	#agent.pause()
 	
 	emit_signal("game_paused")
 	
 func unpause():
-	#print("unpause")
+	get_tree().paused = false
 	paused = false
-	set_physics_process(true)
-	agent.unpause()
+	#set_physics_process(true)
+	#agent.unpause()
 
 
 # ** Trigger and release key inputs from string array
