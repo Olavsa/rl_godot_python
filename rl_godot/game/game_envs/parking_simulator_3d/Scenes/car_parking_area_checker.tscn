@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhes5c16qw1yb"]
+
+[ext_resource type="Script" uid="uid://ca8o64l7v2vu5" path="res://game/game_envs/parking_simulator_3d/Scenes/car_parking_area_checker.gd" id="1_scn1i"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nep8h"]
+radius = 1.0
+
+[node name="CarParkingChecker" type="Node3D"]
+script = ExtResource("1_scn1i")
+
+[node name="FrontArea" type="Area3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FrontArea"]
+shape = SubResource("SphereShape3D_nep8h")
+debug_color = Color(0.247059, 0.631373, 0, 1)
+
+[node name="BackArea" type="Area3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, -2)
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BackArea"]
+shape = SubResource("SphereShape3D_nep8h")
+debug_color = Color(0.247059, 0.631373, 0, 1)
+
+[connection signal="area_entered" from="FrontArea" to="." method="_on_front_area_area_entered"]
+[connection signal="area_exited" from="FrontArea" to="." method="_on_park_area_exited"]
+[connection signal="area_exited" from="BackArea" to="." method="_on_park_area_exited"]
