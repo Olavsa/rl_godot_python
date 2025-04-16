@@ -1,0 +1,302 @@
+[gd_scene load_steps=10 format=3 uid="uid://us0yvp1403gm"]
+
+[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/hatchback_car.tscn" id="1_4dpyx"]
+[ext_resource type="Script" uid="uid://wammvg2et3b2" path="res://game/game_envs/parking_simulator_3d/follow_camera.gd" id="2_3mqfk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_seteq"]
+sky_top_color = Color(0.305252, 0.537292, 0.914408, 1)
+sky_horizon_color = Color(0.664895, 0.767037, 0.753411, 1)
+ground_bottom_color = Color(0.486275, 0.721569, 0.517647, 1)
+ground_horizon_color = Color(0.512867, 0.695863, 0.691765, 1)
+
+[sub_resource type="Sky" id="Sky_tlcug"]
+sky_material = SubResource("ProceduralSkyMaterial_seteq")
+
+[sub_resource type="Environment" id="Environment_4dpyx"]
+background_mode = 2
+background_color = Color(0.509003, 0.775611, 0.964343, 1)
+sky = SubResource("Sky_tlcug")
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_seteq"]
+size = Vector3(20, 0.5, 32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_seteq"]
+albedo_color = Color(0.857661, 0.839837, 7.70092e-07, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlcug"]
+albedo_color = Color(0.295867, 0.295866, 0.295866, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4dpyx"]
+albedo_color = Color(1, 0.144637, 0.159798, 1)
+
+[node name="Level1" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4dpyx")
+
+[node name="ground" type="CSGMesh3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -0.5, 0)
+calculate_tangents = false
+use_collision = true
+mesh = SubResource("BoxMesh_seteq")
+
+[node name="walls" type="CSGCombiner3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2, 0.2, 16.5)
+visible = false
+calculate_tangents = false
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -16.5, 0, 10.5)
+calculate_tangents = false
+use_collision = true
+size = Vector3(1, 2.5, 32)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -16.5, 0, -10.5)
+calculate_tangents = false
+use_collision = true
+size = Vector3(1, 2.5, 32)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 1.43051e-06)
+calculate_tangents = false
+use_collision = true
+size = Vector3(1, 2.5, 22)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="walls"]
+calculate_tangents = false
+use_collision = true
+size = Vector3(1, 2.5, 22)
+
+[node name="parking_spots" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.004, 0)
+
+[node name="parking_spot" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -1.3)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot8" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -3.9)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot8"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot2" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -1.3)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot2"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot7" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, 1.3)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot7"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot3" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -6.5)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot3"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot4" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -9.1)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot4"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot5" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -11.7)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot5"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="parking_spot6" type="CSGCombiner3D" parent="parking_spots"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, -0.25, -14.3)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="parking_spots/parking_spot6"]
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="parking_spots/parking_spot6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.6)
+calculate_tangents = false
+size = Vector3(5, 0.01, 0.1)
+material = SubResource("StandardMaterial3D_seteq")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="parking_spots/parking_spot6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.3)
+calculate_tangents = false
+size = Vector3(5, 0.01, 2.5)
+material = SubResource("StandardMaterial3D_tlcug")
+
+[node name="cars" type="Node3D" parent="."]
+
+[node name="Car3" type="CSGBox3D" parent="cars"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, 0)
+calculate_tangents = false
+use_collision = true
+size = Vector3(2, 1.4, 4)
+material = SubResource("StandardMaterial3D_4dpyx")
+
+[node name="Car4" type="CSGBox3D" parent="cars"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, 2.6)
+calculate_tangents = false
+use_collision = true
+size = Vector3(2, 1.4, 4)
+material = SubResource("StandardMaterial3D_4dpyx")
+
+[node name="Car6" type="CSGBox3D" parent="cars"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, -2.6)
+calculate_tangents = false
+use_collision = true
+size = Vector3(2, 1.4, 4)
+material = SubResource("StandardMaterial3D_4dpyx")
+
+[node name="Car5" type="CSGBox3D" parent="cars"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, -5.2)
+calculate_tangents = false
+use_collision = true
+size = Vector3(2, 1.4, 4)
+material = SubResource("StandardMaterial3D_4dpyx")
+
+[node name="Car7" type="CSGBox3D" parent="cars"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, -10.4)
+calculate_tangents = false
+use_collision = true
+size = Vector3(2, 1.4, 4)
+material = SubResource("StandardMaterial3D_4dpyx")
+
+[node name="Car8" type="CSGBox3D" parent="cars"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, -13)
+calculate_tangents = false
+use_collision = true
+size = Vector3(2, 1.4, 4)
+material = SubResource("StandardMaterial3D_4dpyx")
+
+[node name="hatchback_car" parent="." instance=ExtResource("1_4dpyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.2, -6.5)
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(-0.866025, -0.25, 0.433013, -5.86125e-08, 0.866025, 0.5, -0.5, 0.433013, -0.75, 15.3, 11.3, -5.4)
+fov = 60.0
+size = 30.0
+script = ExtResource("2_3mqfk")
+target = NodePath("../hatchback_car")
