@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5v78it7bvl3m"]
+
+[ext_resource type="Script" uid="uid://cv2hb3x4r2lik" path="res://camera_pivot.gd" id="1_7kj3g"]
+
+[node name="CameraPivot" type="Node3D" node_paths=PackedStringArray("car")]
+script = ExtResource("1_7kj3g")
+car = NodePath("")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -1.27578e-14, -8.74228e-08, -4.24181e-08, 0.8744, 0.485206, 7.64424e-08, 0.485206, -0.8744, 0, 4.68518, -5.90138)
