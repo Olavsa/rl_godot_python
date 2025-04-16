@@ -1,0 +1,178 @@
+[gd_scene load_steps=11 format=3 uid="uid://l0ev3vah46xp"]
+
+[ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://game/game_envs/mvp/main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://tcp/tcp_server_python.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://game/RL/game_process.tscn" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cvrg7i2gscjjn" path="res://game/game_envs/mvp/goal.tscn" id="6_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://game/RL/agent.tscn" id="6_5vw27"]
+[ext_resource type="PackedScene" uid="uid://cq0umaxjconvp" path="res://game/game_envs/mvp/player.tscn" id="6_272bh"]
+[ext_resource type="Script" uid="uid://cbt8w34wgr7vf" path="res://game/game_envs/mvp/mvp_agent.gd" id="6_kek77"]
+[ext_resource type="Script" uid="uid://bijc6627fh0at" path="res://game/UI/fps_ui.gd" id="7_efxa6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m77ju"]
+size = Vector2(20.1768, 42.2851)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sktmj"]
+size = Vector2(40.1973, 39.9553)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_0xm2m")
+
+[node name="ServerTCP" parent="." instance=ExtResource("2_h2yge")]
+
+[node name="GameProcess" parent="." instance=ExtResource("3_1bvp3")]
+
+[node name="Level" type="Node2D" parent="GameProcess"]
+
+[node name="ColorRect" type="ColorRect" parent="GameProcess/Level"]
+offset_left = -1491.0
+offset_top = -620.0
+offset_right = 1093.0
+offset_bottom = 29.0
+scale = Vector2(2.04, 2.96)
+color = Color(1, 0.763986, 0.473322, 1)
+
+[node name="Goal" parent="GameProcess/Level" groups=["goal"] instance=ExtResource("6_4c57u")]
+position = Vector2(2461, 59)
+scale = Vector2(0.359998, 4.99246)
+collision_mask = 2
+
+[node name="Ground" type="StaticBody2D" parent="GameProcess/Level"]
+position = Vector2(103, 405)
+scale = Vector2(60.58, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="GameProcess/Level/Ground"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Ground"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Obstacle" type="StaticBody2D" parent="GameProcess/Level" groups=["obstacle"]]
+position = Vector2(550, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="GameProcess/Level/Obstacle"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="GameProcess/Level/Obstacle"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Obstacle2" type="StaticBody2D" parent="GameProcess/Level" groups=["obstacle"]]
+position = Vector2(1001, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="GameProcess/Level/Obstacle2"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle2"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="GameProcess/Level/Obstacle2"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle2/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Obstacle3" type="StaticBody2D" parent="GameProcess/Level" groups=["obstacle"]]
+position = Vector2(1474, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="GameProcess/Level/Obstacle3"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle3"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="GameProcess/Level/Obstacle3"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle3/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Obstacle4" type="StaticBody2D" parent="GameProcess/Level" groups=["obstacle"]]
+position = Vector2(2006, 314)
+scale = Vector2(2.31359, 2.24)
+
+[node name="ColorRect" type="ColorRect" parent="GameProcess/Level/Obstacle4"]
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.980392, 0.207843, 0.054902, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle4"]
+position = Vector2(19.966, 20.4434)
+scale = Vector2(1.9887, 0.954552)
+shape = SubResource("RectangleShape2D_m77ju")
+
+[node name="Area2D" type="Area2D" parent="GameProcess/Level/Obstacle4"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameProcess/Level/Obstacle4/Area2D"]
+position = Vector2(19.8825, 20.0893)
+shape = SubResource("RectangleShape2D_sktmj")
+
+[node name="Control" type="Control" parent="GameProcess/Level"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_efxa6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="GameProcess/Level/Control"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameProcess/Level/Control/CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FPSCounter" type="Label" parent="GameProcess/Level/Control/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EngineSpeedCounter" type="Label" parent="GameProcess/Level/Control/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PhysicsTicksCounter" type="Label" parent="GameProcess/Level/Control/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Player" parent="GameProcess" instance=ExtResource("6_272bh")]
+position = Vector2(162, 338)
+scale = Vector2(0.999349, 1)
+collision_layer = 3
+
+[node name="Camera2D" type="Camera2D" parent="GameProcess/Player"]
+
+[node name="Agent" parent="GameProcess/Player" node_paths=PackedStringArray("player") groups=["AGENTS"] instance=ExtResource("6_5vw27")]
+script = ExtResource("6_kek77")
+player = NodePath("..")
+
+[connection signal="goalReached" from="GameProcess/Level/Goal" to="GameProcess/Player" method="_on_area_2d_goal_reached"]
+[connection signal="body_entered" from="GameProcess/Level/Obstacle/Area2D" to="GameProcess/Player" method="obstacle_hit"]
+[connection signal="body_entered" from="GameProcess/Level/Obstacle2/Area2D" to="GameProcess/Player" method="obstacle_hit"]
+[connection signal="body_entered" from="GameProcess/Level/Obstacle3/Area2D" to="GameProcess/Player" method="obstacle_hit"]
+[connection signal="body_entered" from="GameProcess/Level/Obstacle4/Area2D" to="GameProcess/Player" method="obstacle_hit"]
