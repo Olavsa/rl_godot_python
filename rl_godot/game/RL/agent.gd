@@ -4,10 +4,10 @@ class_name Agent
 
 
 var done: bool = false
+var truncated: bool = false
 var reward: float = 0.0
 var obs_data: Array = [] # Define observation data here
 var actions = null # Define actions here. Use for controlling character in player code.
-
 var needs_reset: bool = false
 
 
@@ -54,6 +54,9 @@ func set_is_done(is_done: bool):
 	
 func set_reward(_reward: int):
 	reward = _reward
+	
+func add_to_reward(_reward: int):
+	reward += _reward
 
 func pause():
 	# TODO: Find a way to access player more directly
