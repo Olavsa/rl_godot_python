@@ -21,9 +21,8 @@ else:
     print("No existing model found. Creating new one...")
     model = PPO("MultiInputPolicy", env, verbose=1)
 
-num_iterations = 10
+num_iterations = 100
 timesteps_per_iter = 2048 * 15
-
 for i in range(num_iterations):
     # Train the model (continue training if loaded)
     print(f"Training iteration {i+1}/{num_iterations}...")
