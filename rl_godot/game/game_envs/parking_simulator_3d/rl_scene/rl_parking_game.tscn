@@ -132,12 +132,14 @@ current = true
 target = NodePath("../hatchback_car")
 
 [node name="hatchback_car" parent="GameProcess/Level_2" node_paths=PackedStringArray("agent") instance=ExtResource("16_yc208")]
-transform = Transform3D(-0.0032987, 0, 0.999995, 0, 1, 0, -0.999995, 0, -0.0032987, -13.178, 0, -14.2276)
+transform = Transform3D(-0.00172788, 0, 0.999999, 0, 1, 0, -0.999999, 0, -0.00172788, 7.99248, 0, 9.55926)
 agent = NodePath("Agent")
 
-[node name="Agent" parent="GameProcess/Level_2/hatchback_car" node_paths=PackedStringArray("player") instance=ExtResource("5_v10nk")]
+[node name="Agent" parent="GameProcess/Level_2/hatchback_car" node_paths=PackedStringArray("player") groups=["AGENTS"] instance=ExtResource("5_v10nk")]
 script = ExtResource("6_bc10f")
 player = NodePath("..")
+random_pos = true
+random_rotation = true
 
 [node name="CameraPivot" type="Node3D" parent="GameProcess/Level_2/hatchback_car" node_paths=PackedStringArray("car")]
 script = ExtResource("17_kcsfe")

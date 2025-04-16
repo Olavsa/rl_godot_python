@@ -3,6 +3,8 @@ extends Agent
 class_name ParkingAgent
 
 @export var player: PlayerCar = null # set playable character here
+@export var random_pos = false
+@export var random_rotation = false
 
 @onready var level: Node3D = $"../.."
 
@@ -20,8 +22,7 @@ var steering: float = 0.0
 
 var is_parked = false
 var collided = false
-var init_dist_to_target = 1000.0
-var prev_progress = 0.0
+var prev_dist_to_target = 1000.0
 
 var observation: Dictionary = {
 	"speed": 0.0,
@@ -45,7 +46,7 @@ var init_observation: Dictionary = {
 }
 
 var truncated_counter = 0
-var max_seconds = 240 # seconds before truncating
+var max_seconds = 20 # seconds before truncating
 func _physics_process(_delta: float) -> void:
 	truncated_counter += 1
 	if truncated_counter >= 60 * max_seconds and not truncated:
@@ -89,6 +90,19 @@ var ep_reward = 0.0
 func reset():
 	ep_reward = 0.0
 	player.reset_car()
+	if random_pos:
+		var dist_x = 10 * randf()
+		var dist_z = 10 * randf()
+		dist_x = -dist_x if randf() < 0.5 else dist_x
+		dist_z = -dist_z if randf() < 0.5 else dist_z
+		#print(dist_x, ", ", dist_z)
+		player.global_position.x += dist_x
+		player.global_position.z += dist_z
+	
+	if random_rotation:
+		var rotation = 2 * PI * randf()
+		player.rotate_y(rotation)
+		#print(rotation)
 	
 	done = false
 	truncated = false
@@ -97,8 +111,7 @@ func reset():
 	
 	is_parked = false
 	collided = false
-	init_dist_to_target = player.get_distance_to_parking_spot()
-	prev_progress = 0.0
+	prev_dist_to_target = player.get_distance_to_parking_spot()
 	
 	observation = init_observation.duplicate(true)
 	throttle = 0
@@ -121,6 +134,9 @@ func update_obs_dict():
 	var dist_to_target = player.get_distance_to_parking_spot()
 	var tmp_speed = player.get_speed()
 	
+	var progress = prev_dist_to_target - dist_to_target
+	prev_dist_to_target = dist_to_target
+	
 	if is_parked or truncated:
 		done = true
 	
@@ -135,18 +151,12 @@ func update_obs_dict():
 
 	if collided:
 		collided = false
-		reward -= 0.1
+		reward -= 1
 		print("collided")
 	
-	#if dist_to_target > 3 and abs(tmp_speed) < 0.5:
-	#	reward -= 0.1
-	var progress = (init_dist_to_target - dist_to_target) / init_dist_to_target	
-	var progress_reward = 0.01 * clamp(progress, 0, 1)
-	if progress > prev_progress:
-		reward += progress_reward
-	else:
-		reward -= progress_reward
-	
+	var progress_reward = clamp(progress, -1, 1)
+	#print(progress_reward)
+	reward += progress_reward
 	
 	reward -= 0.001 # - reward for time to encourage finding the spot faster
 	
