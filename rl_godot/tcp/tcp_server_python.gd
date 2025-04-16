@@ -16,7 +16,6 @@ var connection_thread : Thread = null
 @onready var game_process: GameProcess = $"../GameProcess"
 
 func _ready():
-	print("server waiting for game procces ready")
 	await $"../GameProcess".ready
 
 
@@ -136,5 +135,7 @@ func disconnectFromPythonSocket():
 		print("disconnected")
 
 func stop_server_thread():
-	connection_thread.free()
+	if connection_thread != null:
+		connection_thread.wait_to_finish()
+		connection_thread.free()
 	queue_free()
