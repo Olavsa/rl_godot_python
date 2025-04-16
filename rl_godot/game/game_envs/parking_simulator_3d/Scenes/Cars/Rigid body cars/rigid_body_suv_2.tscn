@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://2grjjsdattbs"]
+
+[ext_resource type="PackedScene" uid="uid://coa5cp3m5pq64" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_car.tscn" id="1_kl7gq"]
+[ext_resource type="PackedScene" uid="uid://dutjs4gmrwjij" path="res://game/game_envs/parking_simulator_3d/Models/Cars/suv.glb" id="2_234ap"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eny3c"]
+size = Vector3(1.8, 1.82344, 3.35)
+
+[node name="rigid_body_suv_2" type="Node3D"]
+
+[node name="RigidBodyCar" parent="." instance=ExtResource("1_kl7gq")]
+mass = 50.0
+
+[node name="suv" parent="RigidBodyCar" instance=ExtResource("2_234ap")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBodyCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.911719, 0.0749999)
+shape = SubResource("BoxShape3D_eny3c")
