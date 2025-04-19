@@ -1,5 +1,5 @@
 extends Node3D
-
+class_name ParkingLevel
 @export var run_random_input_test = false
 
 @export var set_random_target = true
