@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cdvpkw4krk7kj"]
 
-[ext_resource type="Script" uid="uid://dkbnj4xp5j3py" path="res://Scenes/UI/fps_ui.gd" id="1_3q64t"]
+[ext_resource type="Script" uid="uid://bijc6627fh0at" path="res://RLGodot/UI/fps_ui.gd" id="1_3q64t"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

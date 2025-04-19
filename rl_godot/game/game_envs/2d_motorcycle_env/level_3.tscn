@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cx8lmxcfb3o1n"]
 
-[ext_resource type="Script" uid="uid://ddugl5dsp72mn" path="res://node_2d.gd" id="1_ayd5w"]
-[ext_resource type="PackedScene" uid="uid://dmhro4f0pk6ax" path="res://terrain.tscn" id="2_1fhj5"]
-[ext_resource type="PackedScene" uid="uid://dnnafb1dwlb1n" path="res://Scenes/motorcycle.tscn" id="2_16pka"]
-[ext_resource type="PackedScene" uid="uid://cdvpkw4krk7kj" path="res://Scenes/UI/fps_ui.tscn" id="3_16pka"]
+[ext_resource type="Script" uid="uid://ddugl5dsp72mn" path="res://game/game_envs/2d_motorcycle_env/node_2d.gd" id="1_ayd5w"]
+[ext_resource type="PackedScene" uid="uid://dmhro4f0pk6ax" path="res://game/game_envs/2d_motorcycle_env/terrain.tscn" id="2_1fhj5"]
+[ext_resource type="PackedScene" uid="uid://dnnafb1dwlb1n" path="res://game/game_envs/2d_motorcycle_env/Scenes/motorcycle.tscn" id="2_16pka"]
+[ext_resource type="PackedScene" uid="uid://cdvpkw4krk7kj" path="res://game/game_envs/2d_motorcycle_env/Scenes/UI/fps_ui.tscn" id="3_16pka"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_ayd5w")
