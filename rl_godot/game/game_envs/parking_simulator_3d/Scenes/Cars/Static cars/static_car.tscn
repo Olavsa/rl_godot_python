@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3bvch0yg2j6d"]
+
+[ext_resource type="PackedScene" uid="uid://c0d37o7r5gwa2" path="res://game/game_envs/parking_simulator_3d/Models/Cars/hatchback-sports.glb" id="1_r106g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_modh7"]
+size = Vector3(1.8, 1.5084, 3.9)
+
+[node name="StaticCar" type="StaticBody3D"]
+
+[node name="hatchback-sports" parent="." instance=ExtResource("1_r106g")]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.9407e-08, 0.78064, -0.0500003)
+shape = SubResource("BoxShape3D_modh7")

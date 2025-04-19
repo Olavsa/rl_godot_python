@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://de3nyixftrflp"]
+
+[ext_resource type="Script" uid="uid://crcejo5ej6ex" path="res://RLGodot/RL/engine_speed_toggle.gd" id="1_m7rpw"]
+
+[node name="EngineSpeedToggle" type="Node"]
+script = ExtResource("1_m7rpw")

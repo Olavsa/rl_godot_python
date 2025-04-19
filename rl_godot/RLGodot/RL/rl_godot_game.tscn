@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://damodiy62mvx6"]
+
+[ext_resource type="Script" uid="uid://dbv42ruj2rcc6" path="res://RLGodot/RL/rl_godot_game.gd" id="1_cqgqj"]
+[ext_resource type="PackedScene" uid="uid://de3nyixftrflp" path="res://RLGodot/RL/engine_speed_toggle.tscn" id="2_4np53"]
+[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://RLGodot/tcp/tcp_server_python.tscn" id="2_ksulj"]
+[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://RLGodot/RL/game_process.tscn" id="3_4np53"]
+[ext_resource type="PackedScene" uid="uid://cinfpb34tf3w7" path="res://RLGodot/RL/render_toggle.tscn" id="3_m0fn8"]
+
+[node name="RLGodotGame" type="Node"]
+script = ExtResource("1_cqgqj")
+
+[node name="ProcessControls" type="Node" parent="."]
+
+[node name="EngineSpeedToggle" parent="ProcessControls" instance=ExtResource("2_4np53")]
+
+[node name="RenderToggle" parent="ProcessControls" instance=ExtResource("3_m0fn8")]
+
+[node name="Server" parent="." instance=ExtResource("2_ksulj")]
+
+[node name="GameProcess" parent="." instance=ExtResource("3_4np53")]

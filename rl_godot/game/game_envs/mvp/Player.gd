@@ -27,7 +27,6 @@ func _ready():
 		"goal_reached": false,
 		"distance_traveled": 0
 	}
-	
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 
 

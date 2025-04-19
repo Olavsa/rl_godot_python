@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://docbl5pstv721"]
+
+[ext_resource type="Script" uid="uid://wammvg2et3b2" path="res://game/game_envs/parking_simulator_3d/follow_camera.gd" id="1_ib0ej"]
+
+[node name="Camera3D" type="Camera3D"]
+fov = 60.0
+script = ExtResource("1_ib0ej")

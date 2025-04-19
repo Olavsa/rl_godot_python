@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4nppv4uortp1"]
+
+[ext_resource type="PackedScene" uid="uid://coa5cp3m5pq64" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_car.tscn" id="1_s2ebh"]
+[ext_resource type="PackedScene" uid="uid://c0d37o7r5gwa2" path="res://game/game_envs/parking_simulator_3d/Models/Cars/hatchback-sports.glb" id="2_dp05f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_obqgv"]
+size = Vector3(1.8, 1.5, 3.65)
+
+[node name="RigidBodyHatchbackSports" type="Node3D"]
+
+[node name="RigidBodyCar" parent="." instance=ExtResource("1_s2ebh")]
+mass = 50.0
+
+[node name="hatchback-sports" parent="RigidBodyCar" instance=ExtResource("2_dp05f")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBodyCar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("BoxShape3D_obqgv")

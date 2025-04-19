@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://coa5cp3m5pq64"]
+
+[node name="RigidBodyCar" type="RigidBody3D"]
+mass = 15.0
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 1.5, 0)
+sleeping = true

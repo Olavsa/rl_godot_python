@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dbt0klt352012"]
+
+[ext_resource type="Texture2D" uid="uid://tddg0x27uhco" path="res://game/game_envs/parking_simulator_3d/Textures/colormap.png" id="1_qkkqd"]
+
+[resource]
+albedo_texture = ExtResource("1_qkkqd")

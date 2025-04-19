@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://f3kvl6bvw1q4"]
+
+[ext_resource type="Script" uid="uid://dua4m5b7v7dye" path="res://game/game_envs/parking_simulator_3d/Scenes/parking_sensors.gd" id="1_tutdv"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_l7ngl"]
+height = 1.0
+radius = 0.6
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j58vh"]
+height = 1.0
+radius = 0.6
+
+[node name="ParkingSensors" type="Node3D"]
+script = ExtResource("1_tutdv")
+
+[node name="InnerParkingArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.59495, 0.5, 0)
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InnerParkingArea"]
+shape = SubResource("CylinderShape3D_l7ngl")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="CenterParkingArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.405047, 0.5, 0)
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CenterParkingArea"]
+shape = SubResource("CylinderShape3D_j58vh")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="Center" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.59773, 0, 0)
