@@ -1,13 +1,13 @@
 [gd_scene load_steps=23 format=3 uid="uid://2ve4yjp011bm"]
 
 [ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://game/game_envs/mvp/main.gd" id="1_oef7b"]
-[ext_resource type="Script" uid="uid://nhl3ph6atrh2" path="res://game/game_envs/parking_simulator_3d/rl_scene/render_toggle.gd" id="2_atgm4"]
-[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://tcp/tcp_server_python.tscn" id="2_rtwe4"]
-[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://game/RL/game_process.tscn" id="3_bc10f"]
-[ext_resource type="Script" uid="uid://crcejo5ej6ex" path="res://game/game_envs/parking_simulator_3d/rl_scene/engine_speed_toggle.gd" id="3_yg856"]
-[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://game/RL/agent.tscn" id="5_v10nk"]
+[ext_resource type="Script" uid="uid://nhl3ph6atrh2" path="res://RLGodot/RL/render_toggle.gd" id="2_atgm4"]
+[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://RLGodot/tcp/tcp_server_python.tscn" id="2_rtwe4"]
+[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://RLGodot/RL/game_process.tscn" id="3_bc10f"]
+[ext_resource type="Script" uid="uid://crcejo5ej6ex" path="res://RLGodot/RL/engine_speed_toggle.gd" id="3_yg856"]
+[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://RLGodot/RL/agent.tscn" id="5_v10nk"]
 [ext_resource type="Script" uid="uid://c2idt8lcq2uo2" path="res://game/game_envs/parking_simulator_3d/Scenes/Levels/level_2.gd" id="6_3bean"]
-[ext_resource type="Script" uid="uid://dibmysqhk2o04" path="res://game/RL/parking_agent.gd" id="6_bc10f"]
+[ext_resource type="Script" uid="uid://dibmysqhk2o04" path="res://RLGodot/RL/parking_agent.gd" id="6_bc10f"]
 [ext_resource type="PackedScene" uid="uid://bd2a76yvfa3mf" path="res://game/game_envs/parking_simulator_3d/Scenes/parking_spot.tscn" id="7_qls60"]
 [ext_resource type="PackedScene" uid="uid://bdlosxr3ks2wk" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_suv_1.tscn" id="8_s88tq"]
 [ext_resource type="PackedScene" uid="uid://d4nppv4uortp1" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_hatchback_sports.tscn" id="9_j76a1"]
@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://docbl5pstv721" path="res://game/game_envs/parking_simulator_3d/Scenes/hover_camera.tscn" id="15_3as2x"]
 [ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/hatchback_car.tscn" id="16_yc208"]
 [ext_resource type="Script" uid="uid://cbnbbibxtvnp5" path="res://game/game_envs/parking_simulator_3d/Scenes/camera_pivot.gd" id="17_kcsfe"]
-[ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://game/UI/fps_ui.tscn" id="18_qls60"]
+[ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://RLGodot/UI/fps_ui.tscn" id="18_qls60"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u40f0"]
 sky_top_color = Color(0.305252, 0.537292, 0.914408, 1)
@@ -39,14 +39,53 @@ albedo_color = Color(0.389287, 0.389287, 0.389287, 1)
 
 [node name="RLParkingGame" type="Node"]
 script = ExtResource("1_oef7b")
-human_mode = false
-engine_speed = 1000
 metadata/_custom_type_script = "uid://dy50pl8dtvys5"
 
-[node name="RenderToggle" type="Node" parent="."]
+[node name="UIOverlays" type="Node" parent="."]
+
+[node name="FPSUI" parent="UIOverlays" instance=ExtResource("18_qls60")]
+
+[node name="RLUI" type="Control" parent="UIOverlays"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -308.0
+offset_bottom = 273.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIOverlays/RLUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Gas" type="Label" parent="UIOverlays/RLUI/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Gas"
+
+[node name="Steering" type="Label" parent="UIOverlays/RLUI/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Steer"
+
+[node name="EpisodeReward" type="Label" parent="UIOverlays/RLUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Reward
+"
+
+[node name="ProcessControls" type="Node" parent="."]
+
+[node name="RenderToggle" type="Node" parent="ProcessControls"]
 script = ExtResource("2_atgm4")
 
-[node name="EngineSpeedToggle" type="Node" parent="."]
+[node name="EngineSpeedToggle" type="Node" parent="ProcessControls"]
 script = ExtResource("3_yg856")
 
 [node name="TCPServerPython" parent="." instance=ExtResource("2_rtwe4")]
@@ -55,18 +94,17 @@ script = ExtResource("3_yg856")
 
 [node name="Level_2" type="Node3D" parent="GameProcess" node_paths=PackedStringArray("target_spot")]
 script = ExtResource("6_3bean")
-target_spot = NodePath("ParkingSpots/parking_spot9")
+target_spot = NodePath("ParkingSpots/parking_spot3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="GameProcess/Level_2"]
 transform = Transform3D(-0.5, -0.732825, 0.461484, 0, 0.532876, 0.846193, -0.866025, 0.423097, -0.266438, 0, 0, 0)
 light_color = Color(1, 1, 0.921569, 1)
-shadow_enabled = true
 directional_shadow_max_distance = 50.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="GameProcess/Level_2"]
 environment = SubResource("Environment_0x4y1")
 
-[node name="ground" type="CSGBox3D" parent="GameProcess/Level_2"]
+[node name="ground" type="CSGBox3D" parent="GameProcess/Level_2" groups=["ground"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.5, 8)
 calculate_tangents = false
 use_collision = true
@@ -106,24 +144,24 @@ size = Vector3(1, 1.5, 50)
 [node name="ParkingSpots" type="Node3D" parent="GameProcess/Level_2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.418, 0, 0)
 
-[node name="parking_spot11" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
+[node name="parking_spot1" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 4.35181)
 car_scene = ExtResource("8_s88tq")
 
-[node name="parking_spot9" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 6.95181)
+[node name="parking_spot2" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 7.25181)
 car_scene = ExtResource("9_j76a1")
 
-[node name="parking_spot10" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 9.55181)
+[node name="parking_spot3" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 10.1518)
 car_scene = ExtResource("10_ilrbh")
 
-[node name="parking_spot6" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 12.1518)
+[node name="parking_spot4" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 13.0518)
 car_scene = ExtResource("11_eqr7q")
 
-[node name="parking_spot8" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
-transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 14.7518)
+[node name="parking_spot5" parent="GameProcess/Level_2/ParkingSpots" instance=ExtResource("7_qls60")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5.4, 0, 15.9518)
 car_scene = ExtResource("12_crwcq")
 
 [node name="Camera3D" parent="GameProcess/Level_2" node_paths=PackedStringArray("target") instance=ExtResource("15_3as2x")]
@@ -132,14 +170,19 @@ current = true
 target = NodePath("../hatchback_car")
 
 [node name="hatchback_car" parent="GameProcess/Level_2" node_paths=PackedStringArray("agent") instance=ExtResource("16_yc208")]
-transform = Transform3D(-0.00172788, 0, 0.999999, 0, 1, 0, -0.999999, 0, -0.00172788, 7.99248, 0, 9.55926)
+transform = Transform3D(-0.00596892, -3.61998e-06, 0.999983, -3.63389e-06, 1, 3.59836e-06, -0.999983, -3.61235e-06, -0.00596892, 15.6822, 0, 10.1785)
 agent = NodePath("Agent")
 
 [node name="Agent" parent="GameProcess/Level_2/hatchback_car" node_paths=PackedStringArray("player") groups=["AGENTS"] instance=ExtResource("5_v10nk")]
 script = ExtResource("6_bc10f")
 player = NodePath("..")
 random_pos = true
-random_rotation = true
+random_pos_x_lim = 1.0
+random_pos_z_lim = 5.0
+full_random_rotation = false
+random_rotation_180 = true
+seconds_before_truncation = 30
+reset_on_collision = true
 
 [node name="CameraPivot" type="Node3D" parent="GameProcess/Level_2/hatchback_car" node_paths=PackedStringArray("car")]
 script = ExtResource("17_kcsfe")
@@ -148,42 +191,3 @@ car = NodePath("..")
 [node name="Camera3D" type="Camera3D" parent="GameProcess/Level_2/hatchback_car/CameraPivot"]
 transform = Transform3D(-1, 1.42109e-14, 8.74227e-08, 4.37114e-08, 0.866025, 0.5, -7.57103e-08, 0.5, -0.866025, 0.3, 10.5818, -13.9567)
 fov = 60.0
-
-[node name="UI" parent="." instance=ExtResource("18_qls60")]
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -188.0
-offset_bottom = 103.0
-grow_horizontal = 0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Gas" type="Label" parent="Control/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Gas"
-
-[node name="Steering" type="Label" parent="Control/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-text = "Steer"
-
-[node name="EpisodeReward" type="Label" parent="Control/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Reward
-"

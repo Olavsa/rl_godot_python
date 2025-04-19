@@ -30,4 +30,5 @@ debug_color = Color(0.247059, 0.631373, 0, 1)
 
 [connection signal="area_entered" from="FrontArea" to="." method="_on_front_area_area_entered"]
 [connection signal="area_exited" from="FrontArea" to="." method="_on_park_area_exited"]
+[connection signal="area_entered" from="BackArea" to="." method="_on_back_area_area_entered"]
 [connection signal="area_exited" from="BackArea" to="." method="_on_park_area_exited"]

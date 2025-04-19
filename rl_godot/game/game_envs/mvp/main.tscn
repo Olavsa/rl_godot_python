@@ -1,13 +1,13 @@
 [gd_scene load_steps=11 format=3 uid="uid://l0ev3vah46xp"]
 
 [ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://game/game_envs/mvp/main.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://tcp/tcp_server_python.tscn" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://game/RL/game_process.tscn" id="3_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://RLGodot/tcp/tcp_server_python.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://RLGodot/RL/game_process.tscn" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://cvrg7i2gscjjn" path="res://game/game_envs/mvp/goal.tscn" id="6_4c57u"]
-[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://game/RL/agent.tscn" id="6_5vw27"]
+[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://RLGodot/RL/agent.tscn" id="6_5vw27"]
 [ext_resource type="PackedScene" uid="uid://cq0umaxjconvp" path="res://game/game_envs/mvp/player.tscn" id="6_272bh"]
 [ext_resource type="Script" uid="uid://cbt8w34wgr7vf" path="res://game/game_envs/mvp/mvp_agent.gd" id="6_kek77"]
-[ext_resource type="Script" uid="uid://bijc6627fh0at" path="res://game/UI/fps_ui.gd" id="7_efxa6"]
+[ext_resource type="Script" uid="uid://bijc6627fh0at" path="res://RLGodot/UI/fps_ui.gd" id="7_efxa6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m77ju"]
 size = Vector2(20.1768, 42.2851)
