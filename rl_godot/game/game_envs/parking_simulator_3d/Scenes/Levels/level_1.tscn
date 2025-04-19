@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://us0yvp1403gm"]
 
-[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/hatchback_car.tscn" id="1_4dpyx"]
+[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/hatchback_car.tscn" id="1_4dpyx"]
 [ext_resource type="Script" uid="uid://wammvg2et3b2" path="res://game/game_envs/parking_simulator_3d/follow_camera.gd" id="2_3mqfk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_seteq"]

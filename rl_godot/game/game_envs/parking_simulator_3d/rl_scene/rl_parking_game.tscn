@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://cwnh65iegr7dd" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_truck.tscn" id="11_eqr7q"]
 [ext_resource type="PackedScene" uid="uid://dgwsbjksw4oxb" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_sedan.tscn" id="12_crwcq"]
 [ext_resource type="PackedScene" uid="uid://docbl5pstv721" path="res://game/game_envs/parking_simulator_3d/Scenes/hover_camera.tscn" id="15_3as2x"]
-[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/hatchback_car.tscn" id="16_yc208"]
+[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/hatchback_car.tscn" id="16_yc208"]
 [ext_resource type="Script" uid="uid://cbnbbibxtvnp5" path="res://game/game_envs/parking_simulator_3d/Scenes/camera_pivot.gd" id="17_kcsfe"]
 [ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://RLGodot/UI/fps_ui.tscn" id="18_qls60"]
 

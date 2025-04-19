@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://ctwv3stbg0ab"]
 
 [ext_resource type="Script" uid="uid://c2idt8lcq2uo2" path="res://game/game_envs/parking_simulator_3d/Scenes/Levels/level_2.gd" id="1_0x4y1"]
-[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/hatchback_car.tscn" id="1_7qxk6"]
+[ext_resource type="PackedScene" uid="uid://b277ihya4okpd" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/hatchback_car.tscn" id="1_7qxk6"]
 [ext_resource type="Script" uid="uid://cbnbbibxtvnp5" path="res://game/game_envs/parking_simulator_3d/Scenes/camera_pivot.gd" id="2_oylv5"]
 [ext_resource type="PackedScene" uid="uid://bd2a76yvfa3mf" path="res://game/game_envs/parking_simulator_3d/Scenes/parking_spot.tscn" id="3_oylv5"]
 [ext_resource type="PackedScene" uid="uid://bdlosxr3ks2wk" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/Rigid body cars/rigid_body_suv_1.tscn" id="4_w2ac1"]
