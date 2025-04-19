@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://vhegm318isji" path="res://game/game_envs/parking_simulator_3d/Scenes/Cars/lidar_sensors.gd" id="4_qeddn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3bdae"]
-size = Vector3(1.8, 0.8, 3.9)
+size = Vector3(1.8, 0.685156, 3.9)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_xy1j7"]
 _surfaces = [{
@@ -196,7 +196,7 @@ script = ExtResource("1_ybnwo")
 park_checker = NodePath("CarParkingChecker")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.9407e-08, 0.7, -0.0500003)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.9407e-08, 0.757422, -0.0500003)
 shape = SubResource("BoxShape3D_3bdae")
 
 [node name="body" type="MeshInstance3D" parent="."]
@@ -269,7 +269,7 @@ mesh = SubResource("ArrayMesh_r0073")
 skeleton = NodePath("")
 
 [node name="CarParkingChecker" parent="." instance=ExtResource("3_rj57v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.448846, 1.81279)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.448846, 0.91388)
 
 [node name="FrontSensors" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.334515, 1.90366)
