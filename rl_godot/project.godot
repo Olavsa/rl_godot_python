@@ -23,6 +23,7 @@ window/vsync/vsync_mode=0
 AGENTS=""
 lidar_sensor=""
 parking_spot=""
+ground=""
 
 [input]
 
