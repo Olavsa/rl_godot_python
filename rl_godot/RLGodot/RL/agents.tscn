@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://x1wipj2ym460"]
+
+[ext_resource type="Script" uid="uid://dfqkr7p1v31uy" path="res://RLGodot/RL/agents.gd" id="1_dhspv"]
+
+[node name="Agents" type="Node"]
+script = ExtResource("1_dhspv")

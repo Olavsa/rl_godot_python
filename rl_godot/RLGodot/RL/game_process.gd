@@ -17,14 +17,12 @@ var human_mode = true
 var agent: Agent = null
 
 
-
 var paused = false
 @export var frames_per_step = 8
 
 var active_inputs: PackedStringArray = [] # Current input actions received from python
 
 var initial_state: Dictionary # Store game state that needs to be reset here
-
 
 func _ready() -> void:
 	await main.ready
@@ -97,16 +95,12 @@ func set_input_actions(payloads: Array):
 func pause():
 	get_tree().paused = true
 	paused = true
-	#set_physics_process(false)	
-	#agent.pause()
 	
 	emit_signal("game_paused")
 	
 func unpause():
 	get_tree().paused = false
 	paused = false
-	#set_physics_process(true)
-	#agent.unpause()
 
 
 # ** Trigger and release key inputs from string array
