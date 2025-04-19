@@ -50,7 +50,8 @@ class SyncTCPClient:
         self.step_counter += 1
         
         if self.step_counter % 1000 == 0:
-            print(f"training speed: {133.3333/((t2-t1) / 1000000)}")
+            if t2-t1 > 0.000000001:
+                print(f"training speed: {133.3333/((t2-t1) / 1000000)}")
         
 
         if self.observation is None:

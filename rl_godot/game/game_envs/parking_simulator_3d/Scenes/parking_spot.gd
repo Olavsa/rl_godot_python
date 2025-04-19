@@ -7,7 +7,7 @@ class_name ParkingSpot
 var is_target = false
 
 var car: Node3D = null
-var sensors: Node3D = null
+var sensors: ParkingSensors = null
 
 func _ready() -> void:
 	assert(car_scene != null, "Car not placed in parking lot: %s" % self.name)
@@ -26,6 +26,11 @@ func remove_as_target():
 	is_target = false
 	remove_sensors()
 	replace_car()
+
+
+func get_sensors_pos():
+	assert(sensors != null, "")
+	return sensors.center.global_position
 	
 func remove_sensors():
 	if sensors != null:

@@ -4,8 +4,8 @@ class_name PlayerCar
 
 @export var park_checker: Node3D
 
-@export var ENGINE_FORCE = 200
-@export var MAX_STEER = 0.8
+@export var ENGINE_FORCE = 150
+@export var MAX_STEER = 0.7
 @export var reverse_power_ratio = 1
 
 @export var agent: ParkingAgent = null
@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		throttle = Input.get_axis("ui_down", "ui_up")
 		wheel_steer = Input.get_axis("ui_right", "ui_left")
-	steering = move_toward(steering, wheel_steer * MAX_STEER, delta * 5)
+	steering = move_toward(steering, wheel_steer * MAX_STEER, delta * 10)
 	
 	if -0.05 <= throttle and throttle <= 0.05:
 		brake = 0.1 # Slightly slow down car when coasting so it stops
@@ -48,8 +48,7 @@ func _physics_process(delta: float) -> void:
 	engine_force = throttle * ENGINE_FORCE
 	
 	if not is_parked \
-	and park_checker.is_parked \
-	and linear_velocity.length_squared() < 0.1:
+	and park_checker.is_parked: #and linear_velocity.length_squared() < 0.1:
 		is_parked = true
 		agent.is_parked = true
 		print("\nparked")
@@ -90,7 +89,9 @@ func get_target_pos() -> Array:
 
 
 func get_distance_to_parking_spot() -> float:
-	var dist = Vector2($"..".target_spot.global_position.x - global_position.x, $"..".target_spot.global_position.z - global_position.z) 
+	var target_spot: ParkingSpot = $"..".target_spot
+	var target_pos = target_spot.get_sensors_pos()
+	var dist = Vector2(target_pos.x - global_position.x, target_pos.z - global_position.z) 
 	dist = dist.length()
 	return dist
 
@@ -111,4 +112,5 @@ func get_rotation_basis():
 
 
 func _on_body_entered(body: Node) -> void:
-	agent.collided = true
+	if not body.is_in_group("ground"):
+		agent.collided = true
