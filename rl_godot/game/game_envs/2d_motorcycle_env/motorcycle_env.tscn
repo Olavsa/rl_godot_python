@@ -8,11 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://dmhro4f0pk6ax" path="res://game/game_envs/2d_motorcycle_env/terrain.tscn" id="4_t8qpx"]
 [ext_resource type="PackedScene" uid="uid://dnnafb1dwlb1n" path="res://game/game_envs/2d_motorcycle_env/Scenes/motorcycle.tscn" id="5_mpinc"]
 [ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://RLGodot/RL/agent.tscn" id="6_rmmxb"]
-[ext_resource type="Script" uid="uid://c3meifi7vo6ry" path="res://RLGodot/RL/motorcycle_agent.gd" id="7_2jm04"]
+[ext_resource type="Script" path="res://RLGodot/RL/motorcycle_agent.gd" id="7_2jm04"]
 [ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://RLGodot/UI/fps_ui.tscn" id="8_1hmf3"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_sjeck")
+human_mode = false
+engine_speed = 1000
 
 [node name="RunToggles" type="Node" parent="."]
 

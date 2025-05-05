@@ -20,10 +20,10 @@ class_name ParkingAgent
 
 # Debug UI labels
 #    Inputs
-@onready var gasText: Label = $"../../../../Control/VBoxContainer/Gas"
-@onready var steeringText: Label = $"../../../../Control/VBoxContainer/Steering"
+@onready var gasText: Label = $"../../../../UIOverlays/RLUI/VBoxContainer/Gas"
+@onready var steeringText: Label = $"../../../../UIOverlays/RLUI/VBoxContainer/Steering"
 #    Episode stats
-@onready var rewardText: Label = $"../../../../Control/VBoxContainer/EpisodeReward"
+@onready var rewardText: Label = $"../../../../UIOverlays/RLUI/VBoxContainer/EpisodeReward"
 
 
 # Actions
