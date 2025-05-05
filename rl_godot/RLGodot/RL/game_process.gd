@@ -41,7 +41,7 @@ func _physics_process(_delta):
 	
 	if not human_mode:
 		frame_counter += 1
-		if agent.get_is_done() or frame_counter > frames_per_step:
+		if agent.get_is_done() or frame_counter >= frames_per_step:
 			frame_counter = 0
 			pause()
 
