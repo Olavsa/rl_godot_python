@@ -1,6 +1,7 @@
 import asyncio
 from async_tcp_client import AsyncTCPClient
-from packet import Packet  # Ensure this matches the format Godot expects
+#from packet import Packet  # Ensure this matches the format Godot expects
+from packet_serializer import PacketSerializer
 
 import time
 
@@ -20,7 +21,7 @@ class SyncTCPClient:
 
     def reset(self):
         """Sends a reset command to Godot and gets the new initial observation."""
-        reset_packet = Packet("reset")  # Reset the game state in Godot
+        reset_packet = PacketSerializer.serialize_reset_command()#Packet("reset")  # Reset the game state in Godot
         self.observation = self.loop.run_until_complete(
             self.client.send_packet_and_receive_response(reset_packet)
         )
@@ -38,11 +39,15 @@ class SyncTCPClient:
         :param action: Tuple (jump, move_right) as integers (0 or 1)
         :return: (observation, reward, done, info)
         """
-        
-        action_packet = Packet("action", action[0], action[1], action[2], action[3], action[4])  # Convert to packet
+        act_packet = PacketSerializer.serialize_step_command(action)
+        #action_packet = Packet("action", action[0], action[1])  # Convert to packet
+        print()
+        print(act_packet)
+        #print(action_packet)
+        print()
         t1 = time.time_ns()
         self.observation = self.loop.run_until_complete(
-            self.client.send_packet_and_receive_response(action_packet)
+            self.client.send_packet_and_receive_response(act_packet)
         )
         t2 = time.time_ns()
         
@@ -60,13 +65,13 @@ class SyncTCPClient:
         return self.observation
     
     
-    def setup(self, render_mode):
-        setup_packet = Packet("setup", render_mode)
-        response = self.loop.run_until_complete(
-            self.client.send_packet_and_receive_response(setup_packet)
-        )
+   # def setup(self, render_mode):
+    #    setup_packet = Packet("setup", render_mode)
+    #    response = self.loop.run_until_complete(
+    #        self.client.send_packet_and_receive_response(setup_packet)
+    #    )
         
-        return response
+    #    return response
     
     def close(self):
         """Closes the connection."""
