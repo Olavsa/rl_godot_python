@@ -39,7 +39,7 @@ class SyncTCPClient:
         :return: (observation, reward, done, info)
         """
         
-        action_packet = Packet("action", action[0], action[1])  # Convert to packet
+        action_packet = Packet("action", action[0], action[1], action[2], action[3], action[4])  # Convert to packet
         t1 = time.time_ns()
         self.observation = self.loop.run_until_complete(
             self.client.send_packet_and_receive_response(action_packet)

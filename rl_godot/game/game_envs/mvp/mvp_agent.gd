@@ -14,6 +14,7 @@ func get_observation():
 	observation.append(player.distance_traveled)
 	observation.append(int(player.is_finished))
 	observation.append(int(player.goal_reached))
+	#print(observation)
 	return observation
 
 func set_actions(_actions: Array):

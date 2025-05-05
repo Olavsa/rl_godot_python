@@ -1,0 +1,43 @@
+[gd_scene load_steps=11 format=3 uid="uid://hxo4kfk5lyko"]
+
+[ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://game/game_envs/mvp/main.gd" id="1_sjeck"]
+[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://RLGodot/tcp/tcp_server_python.tscn" id="2_6ie2s"]
+[ext_resource type="PackedScene" uid="uid://cinfpb34tf3w7" path="res://RLGodot/RL/render_toggle.tscn" id="2_gcsdq"]
+[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://RLGodot/RL/game_process.tscn" id="3_gcsdq"]
+[ext_resource type="PackedScene" uid="uid://de3nyixftrflp" path="res://RLGodot/RL/engine_speed_toggle.tscn" id="3_rmmxb"]
+[ext_resource type="PackedScene" uid="uid://dmhro4f0pk6ax" path="res://game/game_envs/2d_motorcycle_env/terrain.tscn" id="4_t8qpx"]
+[ext_resource type="PackedScene" uid="uid://dnnafb1dwlb1n" path="res://game/game_envs/2d_motorcycle_env/Scenes/motorcycle.tscn" id="5_mpinc"]
+[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://RLGodot/RL/agent.tscn" id="6_rmmxb"]
+[ext_resource type="Script" uid="uid://c3meifi7vo6ry" path="res://RLGodot/RL/motorcycle_agent.gd" id="7_2jm04"]
+[ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://RLGodot/UI/fps_ui.tscn" id="8_1hmf3"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_sjeck")
+
+[node name="RunToggles" type="Node" parent="."]
+
+[node name="RenderToggle" parent="RunToggles" instance=ExtResource("2_gcsdq")]
+
+[node name="EngineSpeedToggle" parent="RunToggles" instance=ExtResource("3_rmmxb")]
+
+[node name="TCPServerPython" parent="." instance=ExtResource("2_6ie2s")]
+
+[node name="GameProcess" parent="." instance=ExtResource("3_gcsdq")]
+
+[node name="Terrain" parent="." instance=ExtResource("4_t8qpx")]
+hill_height_range = 500
+hill_width_multiplier = 2.5
+depth_offset = 1000
+
+[node name="Motorcycle" parent="." instance=ExtResource("5_mpinc")]
+position = Vector2(2607, -562)
+distance_to_goal = 2000
+
+[node name="Camera2D" type="Camera2D" parent="Motorcycle"]
+position = Vector2(239, -74)
+zoom = Vector2(0.305, 0.305)
+
+[node name="Agent" parent="Motorcycle" instance=ExtResource("6_rmmxb")]
+script = ExtResource("7_2jm04")
+
+[node name="UI" parent="." instance=ExtResource("8_1hmf3")]

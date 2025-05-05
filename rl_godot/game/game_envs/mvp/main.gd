@@ -7,6 +7,8 @@ class_name RLGodotGame
 @export var human_mode = true
 @export var engine_speed: int = 1
 @export var should_render = true
+@onready var agent: Node = $GameProcess/Motorcycle/Agent
+
 
 @onready var server_tcp: TCPServerPython = $TCPServerPython
 @onready var game_process: GameProcess = $GameProcess

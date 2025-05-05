@@ -1,16 +1,16 @@
 import os
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_checker import check_env
-from game_env import GameEnv  # Ensure you import your environment correctly
+from motorcycle_env import MotorcycleEnv  # Ensure you import your environment correctly
 
 # Create the environment with rendering enabled
-env = GameEnv(render_mode="human")
+env = MotorcycleEnv(render_mode="human")
 
 # Check the environment for compatibility
 #check_env(env, warn=True)
 
 # Define model filename
-model_path = "ppo_godot_agent.zip"
+model_path = "PPO_godot_motorcycle_agent.zip"
 
 # Load existing model if available, otherwise initialize a new one
 if os.path.exists(model_path):
@@ -21,11 +21,16 @@ else:
     model = PPO("MultiInputPolicy", env, verbose=1)
 
 # Train the model (continue training if loaded)
-model.learn(total_timesteps=2048)
+num_iterations = 1
+timesteps_per_iter = 2048 * 1
 
-# Save the trained model
-model.save("ppo_godot_agent")
-print("Model saved successfully.")
+for i in range(num_iterations):
+    # Train the model (continue training if loaded)
+    print(f"Training iteration {i+1}/{num_iterations}...")
+    model.learn(total_timesteps=timesteps_per_iter, reset_num_timesteps=False)
+    # Save the trained model
+    model.save("PPO_godot_motorcycle_agent")
+    print("Model saved successfully.")
 
 # Close the environment
 env.close()

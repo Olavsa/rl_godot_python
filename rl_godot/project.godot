@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="rl_godot"
-run/main_scene="uid://2ve4yjp011bm"
+run/main_scene="uid://hxo4kfk5lyko"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
 [display]

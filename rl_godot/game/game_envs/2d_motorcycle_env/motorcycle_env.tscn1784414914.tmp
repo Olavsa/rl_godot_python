@@ -1,0 +1,34 @@
+[gd_scene load_steps=9 format=3 uid="uid://hxo4kfk5lyko"]
+
+[ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://main.gd" id="1_7u4lj"]
+[ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://tcp/tcp_server_python.tscn" id="2_nl6o2"]
+[ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://game/RL/game_process.tscn" id="3_t8qpx"]
+[ext_resource type="PackedScene" uid="uid://dmhro4f0pk6ax" path="res://game/game_envs/2d_motorcycle_env/terrain.tscn" id="4_t8qpx"]
+[ext_resource type="PackedScene" uid="uid://dnnafb1dwlb1n" path="res://game/game_envs/2d_motorcycle_env/Scenes/motorcycle.tscn" id="5_mpinc"]
+[ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://game/RL/agent.tscn" id="6_mpinc"]
+[ext_resource type="Script" uid="uid://c3meifi7vo6ry" path="res://game/RL/motorcycle_agent.gd" id="7_m7ayn"]
+[ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://game/UI/fps_ui.tscn" id="8_sjeck"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_7u4lj")
+
+[node name="ServerTCP" parent="." instance=ExtResource("2_nl6o2")]
+
+[node name="GameProcess" parent="." instance=ExtResource("3_t8qpx")]
+
+[node name="Terrain" parent="GameProcess" instance=ExtResource("4_t8qpx")]
+points_per_hill = null
+hill_width_multiplier = null
+depth_offset = 1000
+
+[node name="Motorcycle" parent="GameProcess" instance=ExtResource("5_mpinc")]
+position = Vector2(2607, -562)
+
+[node name="Camera2D" type="Camera2D" parent="GameProcess/Motorcycle"]
+position = Vector2(239, -74)
+zoom = Vector2(0.305, 0.305)
+
+[node name="Agent" parent="GameProcess/Motorcycle" instance=ExtResource("6_mpinc")]
+script = ExtResource("7_m7ayn")
+
+[node name="UI" parent="." instance=ExtResource("8_sjeck")]

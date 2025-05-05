@@ -10,7 +10,6 @@ var obs_data: Array = [] # Define observation data here
 var actions = null # Define actions here. Use for controlling character in player code.
 var needs_reset: bool = false
 
-
 func _enter_tree() -> void:
 	#print("adding to group AGENTS")
 	add_to_group("AGENTS")

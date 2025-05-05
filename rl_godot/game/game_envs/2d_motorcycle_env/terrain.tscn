@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmhro4f0pk6ax"]
+
+[ext_resource type="Script" uid="uid://bqhi8lr6y78tc" path="res://game/game_envs/2d_motorcycle_env/terrain.gd" id="1_206su"]
+[ext_resource type="Texture2D" uid="uid://bwn8gtswvaddr" path="res://game/game_envs/2d_motorcycle_env/Images/Other/Clouds.png" id="2_uxcwq"]
+
+[node name="Terrain" type="Node2D"]
+script = ExtResource("1_206su")
+hills_per_chunk = 1
+hill_height_range = 400
+
+[node name="Line2D" type="Line2D" parent="."]
+unique_name_in_owner = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_offset = Vector2(18, -562)
+repeat_size = Vector2(3000, 0)
+autoscroll = Vector2(-50, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+texture = ExtResource("2_uxcwq")

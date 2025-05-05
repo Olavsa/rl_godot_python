@@ -1,0 +1,226 @@
+[gd_scene load_steps=10 format=3 uid="uid://dnnafb1dwlb1n"]
+
+[ext_resource type="Script" uid="uid://bmtuub3utq04w" path="res://game/game_envs/2d_motorcycle_env/Scripts/player.gd" id="1_d2igr"]
+[ext_resource type="PackedScene" uid="uid://cc074x382va21" path="res://game/game_envs/2d_motorcycle_env/Scenes/wheel.tscn" id="2_nv2oj"]
+[ext_resource type="Texture2D" uid="uid://cjklrs8c5wq3f" path="res://game/game_envs/2d_motorcycle_env/Images/Characters/Body2.png" id="2_q738h"]
+[ext_resource type="Texture2D" uid="uid://ib8o7io6f5vc" path="res://game/game_envs/2d_motorcycle_env/Images/Characters/Head2.png" id="3_j12mk"]
+[ext_resource type="Texture2D" uid="uid://ds2eo2v403d0w" path="res://game/game_envs/2d_motorcycle_env/bike.png" id="5_3464l"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_53n52"]
+radius = 27.0
+height = 84.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1cn3d"]
+size = Vector2(14.7678, 52.4597)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p4w7w"]
+radius = 8.05022
+height = 53.1839
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xwp7t"]
+radius = 70.0
+
+[node name="Motorcycle" type="RigidBody2D"]
+script = ExtResource("1_d2igr")
+
+[node name="UpperBody" type="RigidBody2D" parent="." groups=["player"]]
+mass = 0.5
+
+[node name="Chest" type="Sprite2D" parent="UpperBody"]
+position = Vector2(-44, -110)
+rotation = 0.174608
+scale = Vector2(1, 1.5)
+texture = ExtResource("2_q738h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperBody"]
+position = Vector2(-45, -110)
+rotation = 0.206653
+shape = SubResource("CapsuleShape2D_53n52")
+
+[node name="SeatJoint" type="PinJoint2D" parent="UpperBody"]
+position = Vector2(-48, -72)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+
+[node name="HeadJoint" type="PinJoint2D" parent="UpperBody"]
+position = Vector2(-38, -180)
+node_a = NodePath("../../Head")
+node_b = NodePath("..")
+softness = 1.0
+
+[node name="UpperArm" type="RigidBody2D" parent="UpperBody" groups=["player"]]
+position = Vector2(-2, -4)
+mass = 0.1
+
+[node name="UpperArm" type="Sprite2D" parent="UpperBody/UpperArm"]
+position = Vector2(-40, -105)
+rotation = 2.45115
+scale = Vector2(0.3, 0.9)
+texture = ExtResource("2_q738h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperBody/UpperArm"]
+position = Vector2(-40.4952, -105.401)
+rotation = -0.70015
+shape = SubResource("RectangleShape2D_1cn3d")
+
+[node name="Shoulder" type="PinJoint2D" parent="UpperBody/UpperArm"]
+position = Vector2(-54, -122)
+node_a = NodePath("..")
+node_b = NodePath("../..")
+softness = 1.0
+
+[node name="LowerArm" type="RigidBody2D" parent="UpperBody" groups=["player"]]
+mass = 0.1
+
+[node name="LowerArm" type="Sprite2D" parent="UpperBody/LowerArm"]
+position = Vector2(-7, -99)
+rotation = 1.40424
+scale = Vector2(0.3, 0.9)
+texture = ExtResource("2_q738h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperBody/LowerArm"]
+visible = false
+position = Vector2(-10, -99)
+rotation = 1.4421
+shape = SubResource("CapsuleShape2D_p4w7w")
+
+[node name="HandJoint" type="PinJoint2D" parent="UpperBody/LowerArm"]
+position = Vector2(13, -104)
+node_a = NodePath("../../..")
+node_b = NodePath("..")
+softness = 1.0
+
+[node name="ElbowJoint" type="PinJoint2D" parent="UpperBody/LowerArm"]
+position = Vector2(-28, -96)
+node_a = NodePath("../../UpperArm")
+node_b = NodePath("..")
+softness = 1.0
+
+[node name="Head" type="RigidBody2D" parent="." groups=["player"]]
+position = Vector2(-39, -115)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Head"]
+position = Vector2(-2, -64)
+scale = Vector2(1, 0.8)
+shape = SubResource("CircleShape2D_xwp7t")
+
+[node name="Sprite2D" type="Sprite2D" parent="Head"]
+position = Vector2(2, -56)
+scale = Vector2(0.154382, 0.154382)
+texture = ExtResource("3_j12mk")
+
+[node name="Area2D" type="Area2D" parent="Head"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Area2D"]
+position = Vector2(-2, -65)
+scale = Vector2(1, 0.8)
+shape = SubResource("CircleShape2D_xwp7t")
+debug_color = Color(0.80512, 0.342818, 0.613798, 0.42)
+
+[node name="HeadSpring" type="PinJoint2D" parent="Head"]
+position = Vector2(-2, -56)
+node_a = NodePath("..")
+node_b = NodePath("../..")
+softness = 5.0
+
+[node name="NeckJoint" type="PinJoint2D" parent="Head"]
+position = Vector2(-9, 3)
+node_a = NodePath("..")
+node_b = NodePath("../..")
+softness = 2.5
+
+[node name="WheelHolderBack" type="PinJoint2D" parent="."]
+position = Vector2(-125, 50)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 1.5
+
+[node name="Wheel" parent="WheelHolderBack" instance=ExtResource("2_nv2oj")]
+
+[node name="WheelHolderFront" type="PinJoint2D" parent="."]
+position = Vector2(108, 55)
+node_a = NodePath("..")
+node_b = NodePath("Wheel")
+softness = 0.5
+
+[node name="Wheel" parent="WheelHolderFront" instance=ExtResource("2_nv2oj")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-153, -64, -41, -59, 53, -82, 145, -40, 8, 55, -62, 55)
+
+[node name="Motorcycle" type="Sprite2D" parent="."]
+scale = Vector2(0.37, 0.37)
+texture = ExtResource("5_3464l")
+
+[node name="LowerBody" type="Node2D" parent="."]
+
+[node name="Thigh" type="Sprite2D" parent="LowerBody"]
+position = Vector2(-25, -55)
+rotation = 2.36549
+scale = Vector2(0.759038, 1.3996)
+skew = -0.152641
+texture = ExtResource("2_q738h")
+
+[node name="LowerLeg" type="Sprite2D" parent="LowerBody"]
+position = Vector2(-21, -22)
+rotation = -2.36342
+scale = Vector2(0.450509, 1.29982)
+skew = -0.0446109
+texture = ExtResource("2_q738h")
+
+[node name="Foot" type="Sprite2D" parent="LowerBody"]
+position = Vector2(-29, 6)
+rotation = 2.2481
+scale = Vector2(0.25763, 0.676027)
+skew = -0.346732
+texture = ExtResource("2_q738h")
+
+[node name="RayCast2D" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -1.40682
+scale = Vector2(1, 13.1575)
+target_position = Vector2(-235.258, 138.695)
+
+[node name="RayCast2D2" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(187, -33)
+rotation = -0.299977
+scale = Vector2(1, 13.1575)
+target_position = Vector2(148.788, 103.101)
+
+[node name="RayCast2D3" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
+scale = Vector2(1, 13.1575)
+target_position = Vector2(1770.79, 71.0446)
+
+[node name="RayCast2D4" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
+scale = Vector2(1, 13.1575)
+target_position = Vector2(1119.06, -77.4597)
+
+[node name="RayCast2D5" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
+scale = Vector2(1, 13.1575)
+target_position = Vector2(-588.881, -136.323)
+
+[node name="RayCast2D6" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-23, -174)
+rotation = -0.803665
+scale = Vector2(1, 13.1575)
+target_position = Vector2(-2006.24, -85.9918)
+
+[node name="RayCast2D7" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-186, -39)
+rotation = -0.803665
+scale = Vector2(1, 13.1575)
+target_position = Vector2(-1296.7, 25.0211)
+
+[node name="RayCast2D8" type="RayCast2D" parent="." groups=["raycast"]]
+position = Vector2(-9.99999, 38)
+rotation = -0.803665
+scale = Vector2(1, 13.1575)
+target_position = Vector2(-1065.02, 76.2447)
+
+[connection signal="body_entered" from="Head/Area2D" to="." method="_on_area_2d_body_entered"]
