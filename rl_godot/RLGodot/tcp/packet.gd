@@ -20,7 +20,10 @@ static func json_to_action_payloads(json_str: String) -> Dictionary:
 	var action: String
 	var payloads: Array = []
 	var obj_dict: Dictionary = JSON.parse_string(json_str)
-	
+
+	#print(obj_dict)
+	return obj_dict
+"""	
 	for key in obj_dict.keys():
 		var value = obj_dict[key]
 		if key == "a":
@@ -33,3 +36,4 @@ static func json_to_action_payloads(json_str: String) -> Dictionary:
 		"action": action,
 		"payloads": payloads
 	}
+"""

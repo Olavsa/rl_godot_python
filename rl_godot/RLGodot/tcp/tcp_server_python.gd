@@ -77,13 +77,13 @@ func _handle_socket_connection():
 			
 			# Call correct function on main thread based on received packet type.
 			# Deferred functions are run on idle/safe frames in the main thread.
-			if action_payloads["action"] == "action":
+			if action_payloads["command"] == "step":
 				# Perform action from python response in game process
-				call_deferred("_step", action_payloads["payloads"])
-			elif action_payloads["action"] == "reset":
+				call_deferred("_step", action_payloads["action"])
+			elif action_payloads["command"] == "reset":
 				# Reset game process
 				call_deferred("_reset_and_pause")
-			elif action_payloads["action"] == "disconnect":
+			elif action_payloads["command"] == "disconnect":
 				# Handle python disconnecting
 				call_deferred("_release_inputs_and_disconnect")
 				return
