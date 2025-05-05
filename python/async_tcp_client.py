@@ -1,6 +1,7 @@
 import asyncio
 import json
-from packet import Packet
+#from packet import Packet
+from packet_serializer import PacketSerializer
 import socket
 
 TIMEOUT = 10  # Timeout for receiving data
@@ -37,7 +38,7 @@ class AsyncTCPClient:
 
         # Send packet
         #print(f"to godot: {packet}")
-        self.writer.write(packet.__bytes__())
+        self.writer.write(packet.encode('utf-8'))
         await self.writer.drain()
 
         # Receive the response
@@ -74,8 +75,10 @@ class AsyncTCPClient:
         """Sends a disconnect command and closes the TCP connection."""
         if self.writer:
             try: 
-                disconnect_packet = Packet("disconnect")  # Create a disconnect packet
-                self.writer.write(disconnect_packet.__bytes__())
+                # TODO use packet serializer
+                #disconnect_packet = Packet("disconnect")  # Create a disconnect packet
+                disconnect_packet = PacketSerializer.serialize_disconnect_command()
+                self.writer.write(disconnect_packet.encode("utf-8"))
                 await self.writer.drain()
                 print("Sent disconnect command to Godot.")
             finally:
