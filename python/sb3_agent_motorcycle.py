@@ -1,13 +1,9 @@
 import os
 from stable_baselines3 import PPO
-from stable_baselines3.common.env_checker import check_env
-from motorcycle_env import MotorcycleEnv  # Ensure you import your environment correctly
+from motorcycle_env import MotorcycleEnv
 
 # Create the environment with rendering enabled
 env = MotorcycleEnv(render_mode="human")
-
-# Check the environment for compatibility
-#check_env(env, warn=True)
 
 # Define model filename
 model_path = "PPO_godot_motorcycle_agent.zip"
@@ -28,6 +24,7 @@ for i in range(num_iterations):
     # Train the model (continue training if loaded)
     print(f"Training iteration {i+1}/{num_iterations}...")
     model.learn(total_timesteps=timesteps_per_iter, reset_num_timesteps=False)
+    
     # Save the trained model
     model.save("PPO_godot_motorcycle_agent")
     print("Model saved successfully.")

@@ -15,7 +15,7 @@ class GameEnv(gym.Env):
         """Initialize the environment and connect to the Godot server."""
         self.render_mode = render_mode
         self.tcp_client = SyncTCPClient()
-# observation format: [dist_to_obstacle, distance_traveled, is_finished]
+        
         # Observation variables
         self._distance_to_box = -1.0
         self._distance_traveled = 0.0
@@ -53,8 +53,6 @@ class GameEnv(gym.Env):
     
     
     def _update_state(self, observation_dict):
-        #print(f"Distance to box diff: {self._distance_to_box - observation_dict["p1"]}")
-        
         """Update internal environment state based on received observation."""
         self._distance_to_box = observation_dict.get("p1", 1000.0)
         self._distance_traveled = observation_dict.get("p2", 0.0)

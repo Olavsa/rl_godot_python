@@ -1,12 +1,11 @@
 import json
 import numpy as np
 
-# Command type constants
+# Command types
 COMMAND_STEP = "step"
 COMMAND_RESET = "reset"
 COMMAND_SETUP = "setup"
 COMMAND_DISCONNECT = "disconnect"
-
 
 
 class PacketSerializer:

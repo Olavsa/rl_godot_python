@@ -1,6 +1,5 @@
 import asyncio
 import json
-#from packet import Packet
 from packet_serializer import PacketSerializer
 import socket
 
@@ -37,7 +36,6 @@ class AsyncTCPClient:
             raise ConnectionError("No active connection to Godot.")
 
         # Send packet
-        #print(f"to godot: {packet}")
         self.writer.write(packet.encode('utf-8'))
         await self.writer.drain()
 
@@ -64,7 +62,6 @@ class AsyncTCPClient:
             # Decode JSON message
             data_json_str = data.decode("utf-8")
             data_dict = json.loads(data_json_str)
-            #print(f"Received {data_dict}")
             return data_dict
 
         except asyncio.TimeoutError:
@@ -75,8 +72,7 @@ class AsyncTCPClient:
         """Sends a disconnect command and closes the TCP connection."""
         if self.writer:
             try: 
-                # TODO use packet serializer
-                #disconnect_packet = Packet("disconnect")  # Create a disconnect packet
+                # Send disconnect packet to Godot
                 disconnect_packet = PacketSerializer.serialize_disconnect_command()
                 self.writer.write(disconnect_packet.encode("utf-8"))
                 await self.writer.drain()

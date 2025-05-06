@@ -1,5 +1,7 @@
 from gymnasium.envs.registration import register
 
+# Register custom Gymnasium Environments
+
 register(
     id="mvpEnv-v1",
     entry_point="game_env:GameEnv"
