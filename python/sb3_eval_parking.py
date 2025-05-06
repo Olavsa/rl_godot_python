@@ -4,6 +4,8 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecNormalize
 
+from eval_plot_utils import plot_reward_distribution
+
 from parking_env import ParkingEnv
 
 # Evaluation environment setup (fresh env for eval, with rendering enabled if needed)
@@ -19,12 +21,13 @@ model_path = f"./python/ppo_parking/trained_models/{model_file_name}.zip"
 model = PPO.load(model_path, env=eval_env)
 
 # Evaluate the model deterministically (i.e., no entropy/randomness)
-n_eval_episodes = 50
+n_eval_episodes = 100
 
 # Episode data
 rewards = []
 
 for ep in range(n_eval_episodes):
+    if ep % 10 == 0: print(f"ep: {ep} / {n_eval_episodes}") # Print eval progress for longer evals
     obs = eval_env.reset()
     done = False
     total_reward = 0
@@ -50,3 +53,6 @@ print(f"\tMax episode reward:  {np.max(rewards):.2f}")
 print(f"\tMin episode reward:  {np.min(rewards):.2f}")
 print(f"\tParked: {success_rate:.1f}% ({parking_success}/{n_eval_episodes})")
 print(f"\tEP rewards (sorted): {sorted([round(rew, 1) for rew in rewards])}")
+
+# Plot and save histogram for rewards
+plot_reward_distribution(rewards= rewards, save_path="parking_eval_plt", range=(-20, 70))
