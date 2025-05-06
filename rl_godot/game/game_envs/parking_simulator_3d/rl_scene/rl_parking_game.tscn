@@ -39,6 +39,8 @@ albedo_color = Color(0.389287, 0.389287, 0.389287, 1)
 
 [node name="RLParkingGame" type="Node"]
 script = ExtResource("1_oef7b")
+human_mode = false
+engine_speed = 1000
 metadata/_custom_type_script = "uid://dy50pl8dtvys5"
 
 [node name="UIOverlays" type="Node" parent="."]
