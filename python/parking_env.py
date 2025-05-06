@@ -29,12 +29,14 @@ class ParkingEnv(gym.Env):
         self._truncated = 0
         self._done = 0
 
+        # Upper bound for car and target position.
+        POS_LIMIT = np.float32(1e4)
 
         self.observation_space = gym.spaces.Dict(
             {
                 "speed": gym.spaces.Box(low=0.0, high=100.0, shape=(1,), dtype=np.float32),
-                "car_pos": gym.spaces.Box(low=-np.inf, high=np.inf, shape=(2,), dtype=np.float32),
-                "target_pos": gym.spaces.Box(low=-np.inf, high=np.inf, shape=(2,), dtype=np.float32),
+                "car_pos": gym.spaces.Box(low=-POS_LIMIT, high=POS_LIMIT, shape=(2,), dtype=np.float32),
+                "target_pos": gym.spaces.Box(low=-POS_LIMIT, high=POS_LIMIT, shape=(2,), dtype=np.float32),
                 "sensors_front": gym.spaces.Box(low=0.0, high=20.0, shape=(13,), dtype=np.float32),
                 "sensors_back": gym.spaces.Box(low=0.0, high=20.0, shape=(13,), dtype=np.float32),
                 "sensors_middle": gym.spaces.Box(low=0.0, high=20.0, shape=(6,), dtype=np.float32),
@@ -43,8 +45,8 @@ class ParkingEnv(gym.Env):
         )
 
         self.action_space = gym.spaces.Box(
-            low=np.array([-1.0, -1.0]),
-            high=np.array([1.0, 1.0]),
+            low=np.array([-1.0, -1.0], dtype=np.float32),
+            high=np.array([1.0, 1.0], dtype=np.float32),
             dtype=np.float32
         )
 
