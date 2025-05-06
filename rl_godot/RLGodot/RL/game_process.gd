@@ -46,35 +46,21 @@ func _physics_process(_delta):
 			pause()
 
 
-
-# -------------- FUNCTIONS TO OVERRIDE -----------------------------------------
-	
 func reset_and_pause():
 	## Reset game environment
-	# Implement so player and environment are reset
-	#push_error("UNIMPLEMEMTED METHOD: game_process.reset")
+	# Implement reset in agent, so that player and environment state are reset
 	
 	release_inputs()
-	agent.reset() # If game environment is static, you only need to implement reset in agent.
-	# ** Implementation strategy **
-	#	1. Reset environment and agent states:
-	#		- Can store initial state in provided dictionary and revert from that.
-	#		- Or delegate to methods in agent and level
+	agent.reset()
+	
 	pause()
-# -------------- FUNCTIONS TO OVERRIDE -----------------------------------------
 
 
-
-
-
-
-# ----------  IMPLEMENTED FUNCTIONS ----------------------------------------------------------------
 
 func get_observation() -> Array:
 	## Collect observation data from the game process.
 	# Waits for game process to pause after specified number of steps: frames_per_step.
 	# Then gathers and returns new observation from game instance.
-	
 	if not paused:
 		await game_paused
 		
@@ -130,4 +116,3 @@ func release_inputs():
 		Input.action_release(input)
 	active_inputs = []
 # **
-# ----------  IMPLEMENTED FUNCTIONS ----------------------------------------------------------------
