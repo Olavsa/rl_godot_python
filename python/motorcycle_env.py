@@ -5,7 +5,7 @@ from sync_tcp_client import SyncTCPClient
 
 
 class MotorcycleEnv(gym.Env):
-    
+    """Gymnasium environment for integration with Godot simulated motorcross environment."""
     metadata = {
         "render_modes": ["human", "none"],  # "human" for Godot, "none" for headless
         "render_fps": 60  # Match with Godot physics frame rate
@@ -182,6 +182,7 @@ class MotorcycleEnv(gym.Env):
         return self._get_obs(), reward, terminated, truncated, {}
     
     def compute_reward(self):
+        """Helper function to compute step reward from observation data."""
         reward = 0.0
 
         # Reward based on delta distance
