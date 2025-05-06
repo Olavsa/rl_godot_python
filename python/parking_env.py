@@ -30,7 +30,7 @@ class ParkingEnv(gym.Env):
         self._done = 0
 
         # Upper bound for car and target position.
-        POS_LIMIT = np.float32(1e4)
+        POS_LIMIT = np.inf
 
         self.observation_space = gym.spaces.Dict(
             {
