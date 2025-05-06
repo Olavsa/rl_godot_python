@@ -73,7 +73,6 @@ func _handle_socket_connection():
 			# Message: packet type descriptor
 			var message = client.get_utf8_string(client.get_available_bytes())
 			var action_payloads = Packet.json_to_action_payloads(message)
-			#print("From python: ", action_payloads)
 			
 			# Call correct function on main thread based on received packet type.
 			# Deferred functions are run on idle/safe frames in the main thread.
@@ -87,7 +86,6 @@ func _handle_socket_connection():
 				# Handle python disconnecting
 				call_deferred("_release_inputs_and_disconnect")
 				return
-			# TODO: Handle setup packet
 
 # Helper function to safely perform actions on the main thread
 func _step(payloads):
@@ -97,7 +95,6 @@ func _step(payloads):
 
 # Helper function to safely reset the game process
 func _reset_and_pause():
-	#print("reset and pause")
 	game_process.reset_and_pause()
 	await _get_and_send_observation()
 
@@ -125,7 +122,6 @@ func get_observation_json_str():
 
 
 func sendPacket(obs):
-	#print("\nTo python: ", obs)
 	client.put_utf8_string(obs)
 
 func disconnectFromPythonSocket():
