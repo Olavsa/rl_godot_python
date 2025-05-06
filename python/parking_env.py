@@ -5,7 +5,7 @@ from sync_tcp_client import SyncTCPClient
 
 
 class ParkingEnv(gym.Env):
-    
+    """Gymnasium environment for integration with Godot 'Parking Simulator' simulated environment."""
     metadata = {
         "render_modes": ["human", "none"],
         "render_fps": 60

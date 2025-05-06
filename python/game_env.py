@@ -5,7 +5,7 @@ from sync_tcp_client import SyncTCPClient
 
 
 class GameEnv(gym.Env):
-    
+    """Gymnasium environment for integration with Godot MVP simulated envrionment."""
     metadata = {
         "render_modes": ["human", "none"],  # "human" for Godot, "none" for headless
         "render_fps": 60  # Match with Godot physics frame rate
