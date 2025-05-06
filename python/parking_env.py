@@ -5,10 +5,10 @@ from sync_tcp_client import SyncTCPClient
 
 
 class ParkingEnv(gym.Env):
-    
+    """Gymnasium environment for integration with Godot 'Parking Simulator' simulated environment."""
     metadata = {
-        "render_modes": ["human", "none"],  # "human" for Godot, "none" for headless
-        "render_fps": 60  # Match with Godot physics frame rate
+        "render_modes": ["human", "none"],
+        "render_fps": 60
     }
     
     def __init__(self, render_mode="human"):
@@ -16,7 +16,6 @@ class ParkingEnv(gym.Env):
         self.render_mode = render_mode
         self.tcp_client = SyncTCPClient()
         
-        # TODO: Define obs variables
         # Observation variables
         self._speed = 0.0
         self._car_pos = np.array([0.0, 0.0])
@@ -30,12 +29,14 @@ class ParkingEnv(gym.Env):
         self._truncated = 0
         self._done = 0
 
-        # Define observation space
+        # Upper bound for car and target position.
+        POS_LIMIT = np.float32(1e4)
+
         self.observation_space = gym.spaces.Dict(
             {
                 "speed": gym.spaces.Box(low=0.0, high=100.0, shape=(1,), dtype=np.float32),
-                "car_pos": gym.spaces.Box(low=-np.inf, high=np.inf, shape=(2,), dtype=np.float32),
-                "target_pos": gym.spaces.Box(low=-np.inf, high=np.inf, shape=(2,), dtype=np.float32),
+                "car_pos": gym.spaces.Box(low=-POS_LIMIT, high=POS_LIMIT, shape=(2,), dtype=np.float32),
+                "target_pos": gym.spaces.Box(low=-POS_LIMIT, high=POS_LIMIT, shape=(2,), dtype=np.float32),
                 "sensors_front": gym.spaces.Box(low=0.0, high=20.0, shape=(13,), dtype=np.float32),
                 "sensors_back": gym.spaces.Box(low=0.0, high=20.0, shape=(13,), dtype=np.float32),
                 "sensors_middle": gym.spaces.Box(low=0.0, high=20.0, shape=(6,), dtype=np.float32),
@@ -44,8 +45,8 @@ class ParkingEnv(gym.Env):
         )
 
         self.action_space = gym.spaces.Box(
-            low=np.array([-1.0, -1.0]),
-            high=np.array([1.0, 1.0]),
+            low=np.array([-1.0, -1.0], dtype=np.float32),
+            high=np.array([1.0, 1.0], dtype=np.float32),
             dtype=np.float32
         )
 
@@ -63,8 +64,6 @@ class ParkingEnv(gym.Env):
 
 
     def _update_state(self, observation_dict):
-        #print(f"Distance to box diff: {self._distance_to_box - observation_dict["p1"]}")
-        
         """Update internal environment state based on received observation."""
         
         self._speed = observation_dict.get("p1", 0.0)
@@ -83,27 +82,19 @@ class ParkingEnv(gym.Env):
     
     def reset(self, seed=None, options=None):
         """Reset the environment by sending a reset signal to Godot and receiving an initial observation."""
-        # Send reset command to Godot and get new initial observation
         observation_dict = self.tcp_client.reset()
 
-        # Update state
         self._update_state(observation_dict)
 
         return self._get_obs(), {}
     
 
-        # TODO: Define step
     def step(self, action):
         """Send an action to Godot and receive the next observation."""
-        #move = tuple([float(action[0]), float(action[1])])
-
-        # Send action and wait for new observation
         observation_dict = self.tcp_client.step(action)
 
-        # Update internal state
         self._update_state(observation_dict)
 
-        # Compute reward and termination
         terminated = self._done == 1
         truncated = self._truncated == 1
         

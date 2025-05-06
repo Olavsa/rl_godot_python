@@ -1,18 +1,16 @@
 import os
 from stable_baselines3 import PPO
-from stable_baselines3.common.env_checker import check_env
-from stable_baselines3.common.monitor import Monitor
-from parking_env import ParkingEnv  # Ensure you import your environment correctly
+from parking_env import ParkingEnv
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecNormalize, VecMonitor
 
-# Create the environment with rendering enabled
-#env = ParkingEnv(render_mode="human")
 
 env = make_vec_env(ParkingEnv, n_envs=1)
 env = VecNormalize(env, norm_obs=True, norm_reward=True)
 
+# Path to tensorboard log directory
 tensorboard_log_dir = "./python/ppo_parking/tensorboard/ppo_parking_tensorboard_3/"
+
 # Define model filename
 model_file_name = "ppo_4_reward_normalization"
 
@@ -22,20 +20,19 @@ tmp_model_path = f"./python/ppo_parking/trained_models/tmp_ppo_agent.zip"
 # Wrap with monitor for logging
 env = VecMonitor(env, filename=tensorboard_log_dir)
 
+# Set bigger PPO networks hidden layers for Parking Task
 policy_kwargs = dict(
     net_arch=[dict(pi=[256, 256], vf=[256, 256])]
 )
-# Check the environment for compatibility
-#check_env(env, warn=True)
 
-
+# Make sure tensorboard log directory exists or is made
 if not os.path.exists(tensorboard_log_dir):
     os.makedirs(tensorboard_log_dir)
     print(f"Created log directory: {tensorboard_log_dir}")
 else:
     print(f"Log directory already exists: {tensorboard_log_dir}")
 
-# Load existing model if available, otherwise initialize a new one
+# Load existing model if available, otherwise initialize a new untrained model
 if os.path.exists(model_path):
     print("Loading existing model...")
     model = PPO.load(model_path, env=env, tensorboard_log= tensorboard_log_dir)  # Load with the same environment

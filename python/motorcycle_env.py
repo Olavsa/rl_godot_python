@@ -5,7 +5,7 @@ from sync_tcp_client import SyncTCPClient
 
 
 class MotorcycleEnv(gym.Env):
-    
+    """Gymnasium environment for integration with Godot simulated motorcross environment."""
     metadata = {
         "render_modes": ["human", "none"],  # "human" for Godot, "none" for headless
         "render_fps": 60  # Match with Godot physics frame rate
@@ -20,9 +20,7 @@ class MotorcycleEnv(gym.Env):
         self._delta_distance = 0.0
         self._previous_linear_velocity_x = 0.0
 
-        # Observation format: [dist_to_obstacle, distance_traveled, is_finished]
-        # Observation variables
-
+    # Observation variables:
         # Bike information
         self._distance_traveled = 0.0
         self._position_x = 0
@@ -157,7 +155,6 @@ class MotorcycleEnv(gym.Env):
         """Send an action to Godot and receive the next observation."""
 
         move = self._action_to_inputs[action] 
-        #print(f"Action selected: {action} → Move sent to Godot: {move}")
 
         # Send action and wait for new observation
         observation_dict = self.tcp_client.step(move)
@@ -185,6 +182,7 @@ class MotorcycleEnv(gym.Env):
         return self._get_obs(), reward, terminated, truncated, {}
     
     def compute_reward(self):
+        """Helper function to compute step reward from observation data."""
         reward = 0.0
 
         # Reward based on delta distance

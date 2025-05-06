@@ -1,13 +1,12 @@
 import asyncio
 from async_tcp_client import AsyncTCPClient
-#from packet import Packet  # Ensure this matches the format Godot expects
 from packet_serializer import PacketSerializer
 
 import time
 
 
 class SyncTCPClient:
-    """Synchronous wrapper for AsyncTCPClient, making it SB3- and gymnasium-compatible."""
+    """Synchronous wrapper/adapter for AsyncTCPClient, making it SB3- and gymnasium-compatible."""
 
     def __init__(self):
         self.client = AsyncTCPClient()
@@ -40,11 +39,6 @@ class SyncTCPClient:
         :return: (observation, reward, done, info)
         """
         act_packet = PacketSerializer.serialize_step_command(action)
-        #action_packet = Packet("action", action[0], action[1])  # Convert to packet
-        print()
-        print(act_packet)
-        #print(action_packet)
-        print()
         t1 = time.time_ns()
         self.observation = self.loop.run_until_complete(
             self.client.send_packet_and_receive_response(act_packet)
@@ -64,7 +58,7 @@ class SyncTCPClient:
 
         return self.observation
     
-    
+    # ADD this if converting to sending environment setup from Python, not Godot
    # def setup(self, render_mode):
     #    setup_packet = Packet("setup", render_mode)
     #    response = self.loop.run_until_complete(
