@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cinfpb34tf3w7"]
 
-[ext_resource type="Script" uid="uid://nhl3ph6atrh2" path="res://RLGodot/RL/render_toggle.gd" id="1_xwik8"]
+[ext_resource type="Script" uid="uid://nhl3ph6atrh2" path="res://RLGodot/RL/simulation_toggles/render_toggle.gd" id="1_xwik8"]
 
 [node name="RenderToggle" type="Node"]
 script = ExtResource("1_xwik8")
