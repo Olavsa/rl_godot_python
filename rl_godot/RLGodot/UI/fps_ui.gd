@@ -16,10 +16,10 @@ func _process(_delta: float) -> void:
 	fps_counter.text = "FPS: " + str(Engine.get_frames_per_second())
 	
 	var t2 = Time.get_ticks_msec()
-	var seconds_between = 10
+	var seconds_between = 1
 	if t2 - t1 >= seconds_between * 1000:
 		var ticks = Engine.get_physics_frames()
-		var ticks_per_sec: float = (ticks - prev_ticks) / seconds_between
+		var ticks_per_sec = (ticks - prev_ticks) / seconds_between
 		t1 = t2
 		physics_ticks_counter.text = "Physics ticks per second: %d" % (ticks_per_sec)
 		prev_ticks = ticks

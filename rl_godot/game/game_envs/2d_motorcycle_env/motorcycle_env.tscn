@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://dy50pl8dtvys5" path="res://game/game_envs/mvp/main.gd" id="1_sjeck"]
 [ext_resource type="PackedScene" uid="uid://dbjbnky5qu1oo" path="res://RLGodot/tcp/tcp_server_python.tscn" id="2_6ie2s"]
-[ext_resource type="PackedScene" uid="uid://cinfpb34tf3w7" path="res://RLGodot/RL/render_toggle.tscn" id="2_gcsdq"]
+[ext_resource type="PackedScene" uid="uid://cinfpb34tf3w7" path="res://RLGodot/RL/simulation_toggles/render_toggle.tscn" id="2_gcsdq"]
 [ext_resource type="PackedScene" uid="uid://jtff4k2ium7f" path="res://RLGodot/RL/game_process.tscn" id="3_gcsdq"]
-[ext_resource type="PackedScene" uid="uid://de3nyixftrflp" path="res://RLGodot/RL/engine_speed_toggle.tscn" id="3_rmmxb"]
+[ext_resource type="PackedScene" uid="uid://de3nyixftrflp" path="res://RLGodot/RL/simulation_toggles/engine_speed_toggle.tscn" id="3_rmmxb"]
 [ext_resource type="PackedScene" uid="uid://dmhro4f0pk6ax" path="res://game/game_envs/2d_motorcycle_env/terrain.tscn" id="4_t8qpx"]
 [ext_resource type="PackedScene" uid="uid://dnnafb1dwlb1n" path="res://game/game_envs/2d_motorcycle_env/Scenes/motorcycle.tscn" id="5_mpinc"]
 [ext_resource type="PackedScene" uid="uid://dle34e2m74ipt" path="res://RLGodot/RL/agent.tscn" id="6_rmmxb"]
-[ext_resource type="Script" uid="uid://c3meifi7vo6ry" path="res://RLGodot/RL/motorcycle_agent.gd" id="7_2jm04"]
+[ext_resource type="Script" uid="uid://c3meifi7vo6ry" path="res://RLGodot/RL/GameAgents/motorcycle_agent.gd" id="7_2jm04"]
 [ext_resource type="PackedScene" uid="uid://bxk1h4s3r1ulh" path="res://RLGodot/UI/fps_ui.tscn" id="8_1hmf3"]
 
 [node name="Main" type="Node"]

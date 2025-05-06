@@ -38,11 +38,13 @@ func _physics_process(delta: float) -> void:
 		wheel_steer = Input.get_axis("ui_right", "ui_left")
 	steering = move_toward(steering, wheel_steer * MAX_STEER, delta * 10)
 	
+	brake = 0.0
+	
 	if -0.05 <= throttle and throttle <= 0.05:
 		brake = 0.1 # Slightly slow down car when coasting so it stops
 	elif throttle < 0:
 		throttle = throttle * reverse_power_ratio # Reduce throttle when reversing
-	if $back_left.get_rpm() * throttle < 0:
+	if $back_left.get_rpm() * throttle < 0: # Apply brakes if throttle opposes driving direction
 		throttle = 0
 		brake = 1
 	engine_force = throttle * ENGINE_FORCE
