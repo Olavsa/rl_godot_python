@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var toggle_wind = false
+@export var toggle_oil = false
 @export var hills_per_chunk = 2
 @export var points_per_hill = 10 # More points = smoother hills
 @export var hill_height_range = 200
@@ -8,8 +10,11 @@ extends Node2D
 @export var chance_for_oil_spill = 100 # 1 out of x for oil to spawn
 @export var oil_friction = 0.05
 @export var wind_force = -1000.0 # Negative to push left/backwards
+@export var wind_timer = 10
+@export var wind_duartion_time = 2
 
 
+@onready var wind_duration: Timer = $wind_duration
 @onready var motorcycle: RigidBody2D = $"../Motorcycle"
 @onready var wind_timeout: Timer = $wind_timeout
 
@@ -39,6 +44,9 @@ func _ready() -> void:
 
 	leftmost_x = start_point.x
 	rightmost_x = start_point.x
+	
+	wind_duration.wait_time = wind_duartion_time
+	wind_timeout.wait_time = wind_timer
 	
 	add_hills(start_point.x, 1) # Forward
 	add_hills(start_point.x, -1) # Backward
@@ -136,7 +144,7 @@ func add_hills(start_x: float, direction: int) -> void:
 			grass_sprite.flip_h = bool(randi() % 2)
 
 			# Trigger a new spill randomly
-			if oil_trail_remaining == 0 and randi() % chance_for_oil_spill == 0:
+			if toggle_oil == true and oil_trail_remaining == 0 and randi() % chance_for_oil_spill == 0:
 				oil_trail_remaining = oil_trail_length
 
 			if oil_trail_remaining > 0:
@@ -171,14 +179,17 @@ func add_hills(start_x: float, direction: int) -> void:
 		leftmost_x = terrain[0].x
 
 func _physics_process(delta: float) -> void:
-	if is_wind_active:
-		%Parallax2D.autoscroll.x = -2000
-		motorcycle.apply_central_impulse(Vector2(wind_force, 0))
+	if is_wind_active and toggle_wind:
+		%Parallax2D.autoscroll.x = -50 + (-wind_force * 50) 
+		motorcycle.apply_central_impulse(Vector2(-wind_force, 0))
 	elif not is_wind_active:
-			%Parallax2D.autoscroll.x = -50
+		%Parallax2D.autoscroll.x = -50
 
 func _on_wind_timeout_timeout() -> void:
-	if is_wind_active:
-		is_wind_active = false
-	else:
-		is_wind_active = true
+	is_wind_active = true
+	wind_timeout.stop()
+	wind_duration.start()
+	
+func _on_wind_duration_timeout() -> void:
+	is_wind_active = false
+	wind_timeout.start()
