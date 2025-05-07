@@ -4,10 +4,13 @@ extends Node2D
 @export var points_per_hill = 10 # More points = smoother hills
 @export var hill_height_range = 200
 @export var hill_width_multiplier = 2.0
-@export var depth_offset = 500 # To fill in gap below hills
-
+@export var oil_trail_length = 30 # Number of darkened segments after oil spill triggers
+@export var chance_for_oil_spill = 100 # 1 out of x for oil to spawn
+@export var oil_friction = 0.05
 @onready var motorcycle: RigidBody2D = $"../Motorcycle"
 
+var depth_offset = 500 # To fill in gap below hills
+var oil_trail_remaining = 0
 var screensize
 var terrain = []
 var grass_texture = preload("res://game/game_envs/2d_motorcycle_env/Images/Terrain/Grass.png")
@@ -35,6 +38,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if rightmost_x < motorcycle.position.x + screensize.x:
 		add_hills(rightmost_x, 1)
+
 	if leftmost_x > motorcycle.position.x - screensize.x:
 		add_hills(leftmost_x, -1)
 
@@ -81,14 +85,14 @@ func add_hills(start_x: float, direction: int) -> void:
 	shape.polygon = poly
 	%StaticBody2D.add_child(shape)
 
-	# --- Dirt polygon (background fill) ---
+	# Dirt polygon
 	var dirt_poly = Polygon2D.new()
 	dirt_poly.polygon = poly
 	dirt_poly.texture = dirt_texture
 	dirt_poly.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	add_child(dirt_poly)
 
-	# --- Grass Sprites along the hilltop ---
+	# Grass Sprites along the hilltop
 	var segment_length = grass_texture.get_width() * 0.8 # Slight overlap for cleaner look
 
 	var grass_points = []
@@ -119,8 +123,33 @@ func add_hills(start_x: float, direction: int) -> void:
 			grass_sprite.rotation = angle
 			add_child(grass_sprite)
 
-			# Optionally: Add random flip/scale for variation
 			grass_sprite.flip_h = bool(randi() % 2)
+
+			# Trigger a new spill randomly
+			if oil_trail_remaining == 0 and randi() % chance_for_oil_spill == 0:
+				oil_trail_remaining = oil_trail_length
+
+			if oil_trail_remaining > 0:
+				grass_sprite.modulate = Color(0.4, 0.4, 0.4)
+				oil_trail_remaining -= 1
+
+				# Create slippery StaticBody2D
+				var oil_body = StaticBody2D.new()
+				var oil_shape = CollisionShape2D.new()
+				var rect_shape = RectangleShape2D.new()
+				rect_shape.size = Vector2(segment_length, 10)
+				oil_shape.shape = rect_shape
+				oil_shape.position = grass_sprite.position
+				oil_shape.rotation = angle
+
+				# Add low-friction physics material
+				var material = PhysicsMaterial.new()
+				material.friction = oil_friction
+				oil_body.physics_material_override = material
+
+				oil_body.add_child(oil_shape)
+				add_child(oil_body)
+
 
 			current_pos += direction_vector * segment_length
 			distance_covered += segment_length
