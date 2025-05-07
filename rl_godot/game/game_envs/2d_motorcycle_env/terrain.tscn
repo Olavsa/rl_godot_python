@@ -15,9 +15,16 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
+unique_name_in_owner = true
 scroll_offset = Vector2(18, -562)
 repeat_size = Vector2(3000, 0)
 autoscroll = Vector2(-50, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 texture = ExtResource("2_uxcwq")
+
+[node name="wind_timeout" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
+[connection signal="timeout" from="wind_timeout" to="." method="_on_wind_timeout_timeout"]

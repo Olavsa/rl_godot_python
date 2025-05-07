@@ -7,9 +7,17 @@ extends Node2D
 @export var oil_trail_length = 30 # Number of darkened segments after oil spill triggers
 @export var chance_for_oil_spill = 100 # 1 out of x for oil to spawn
 @export var oil_friction = 0.05
+@export var wind_force = -1000.0 # Negative to push left/backwards
+
+
 @onready var motorcycle: RigidBody2D = $"../Motorcycle"
+@onready var wind_timeout: Timer = $wind_timeout
+
+var is_wind_active = false
+
 
 var depth_offset = 500 # To fill in gap below hills
+
 var oil_trail_remaining = 0
 var screensize
 var terrain = []
@@ -31,7 +39,7 @@ func _ready() -> void:
 
 	leftmost_x = start_point.x
 	rightmost_x = start_point.x
-
+	
 	add_hills(start_point.x, 1) # Forward
 	add_hills(start_point.x, -1) # Backward
 
@@ -41,6 +49,8 @@ func _process(delta: float) -> void:
 
 	if leftmost_x > motorcycle.position.x - screensize.x:
 		add_hills(leftmost_x, -1)
+		
+		
 
 func add_hills(start_x: float, direction: int) -> void:
 	var hill_width = (screensize.x / hills_per_chunk) * hill_width_multiplier
@@ -159,3 +169,16 @@ func add_hills(start_x: float, direction: int) -> void:
 		rightmost_x = terrain[-1].x
 	else:
 		leftmost_x = terrain[0].x
+
+func _physics_process(delta: float) -> void:
+	if is_wind_active:
+		%Parallax2D.autoscroll.x = -2000
+		motorcycle.apply_central_impulse(Vector2(wind_force, 0))
+	elif not is_wind_active:
+			%Parallax2D.autoscroll.x = -50
+
+func _on_wind_timeout_timeout() -> void:
+	if is_wind_active:
+		is_wind_active = false
+	else:
+		is_wind_active = true
