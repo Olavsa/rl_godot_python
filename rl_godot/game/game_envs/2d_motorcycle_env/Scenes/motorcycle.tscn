@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bmtuub3utq04w" path="res://game/game_envs/2d_motorcycle_env/Scripts/player.gd" id="1_d2igr"]
 [ext_resource type="PackedScene" uid="uid://cc074x382va21" path="res://game/game_envs/2d_motorcycle_env/Scenes/wheel.tscn" id="2_nv2oj"]
 [ext_resource type="Texture2D" uid="uid://cjklrs8c5wq3f" path="res://game/game_envs/2d_motorcycle_env/Images/Characters/Body2.png" id="2_q738h"]
-[ext_resource type="Texture2D" uid="uid://ib8o7io6f5vc" path="res://game/game_envs/2d_motorcycle_env/Images/Characters/Head2.png" id="3_j12mk"]
+[ext_resource type="Texture2D" uid="uid://c21p06hikuocr" path="res://game/game_envs/2d_motorcycle_env/Images/Characters/Head2 - Copy.png" id="3_1jsfs"]
 [ext_resource type="Texture2D" uid="uid://ds2eo2v403d0w" path="res://game/game_envs/2d_motorcycle_env/bike.png" id="5_3464l"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_53n52"]
@@ -105,9 +105,9 @@ scale = Vector2(1, 0.8)
 shape = SubResource("CircleShape2D_xwp7t")
 
 [node name="Sprite2D" type="Sprite2D" parent="Head"]
-position = Vector2(2, -56)
-scale = Vector2(0.154382, 0.154382)
-texture = ExtResource("3_j12mk")
+position = Vector2(-5, -67)
+scale = Vector2(0.914382, 0.914382)
+texture = ExtResource("3_1jsfs")
 
 [node name="Area2D" type="Area2D" parent="Head"]
 

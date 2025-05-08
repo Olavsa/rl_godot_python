@@ -1,13 +1,29 @@
 extends Node2D
 
-@export var hills_per_chunk = 2
+@export var toggle_wind = false
+@export var toggle_oil = false
+@export var hills_per_chunk = 2 # How many hills to be generated per chunk
 @export var points_per_hill = 10 # More points = smoother hills
-@export var hill_height_range = 200
-@export var hill_width_multiplier = 2.0
-@export var depth_offset = 500 # To fill in gap below hills
+@export var hill_height_range = 200 # How heigh the hills are
+@export var hill_width_multiplier = 2.0 # How wide/steep the hills are. Lower = steeper
+@export var oil_trail_length = 30 # Number of darkened segments after oil spill triggers
+@export var chance_for_oil_spill = 100 # 1 out of x for oil to spawn
+@export var oil_friction = 0.05 # 1 = normal friction
+@export var wind_force = -1000.0 # Negative to push left/backwards
+@export var wind_timer = 10 # Time inbetween wind gusts
+@export var wind_duartion_time = 2 # How long wind lasts
 
+
+@onready var wind_duration: Timer = $wind_duration
 @onready var motorcycle: RigidBody2D = $"../Motorcycle"
+@onready var wind_timeout: Timer = $wind_timeout
 
+var is_wind_active = false
+
+
+var depth_offset = 500 # To fill in gap below hills
+
+var oil_trail_remaining = 0
 var screensize
 var terrain = []
 var grass_texture = preload("res://game/game_envs/2d_motorcycle_env/Images/Terrain/Grass.png")
@@ -28,15 +44,22 @@ func _ready() -> void:
 
 	leftmost_x = start_point.x
 	rightmost_x = start_point.x
-
-	add_hills(start_point.x, 1) # Forward
-	add_hills(start_point.x, -1) # Backward
+	
+	wind_duration.wait_time = wind_duartion_time
+	wind_timeout.wait_time = wind_timer
+	
+	add_hills(start_point.x, 1) # Generates hill forward
+	add_hills(start_point.x, -1) # Generates hill backward
 
 func _process(delta: float) -> void:
+	#Generates more hills either infront or behind the player
 	if rightmost_x < motorcycle.position.x + screensize.x:
 		add_hills(rightmost_x, 1)
+
 	if leftmost_x > motorcycle.position.x - screensize.x:
 		add_hills(leftmost_x, -1)
+		
+		
 
 func add_hills(start_x: float, direction: int) -> void:
 	var hill_width = (screensize.x / hills_per_chunk) * hill_width_multiplier
@@ -81,14 +104,14 @@ func add_hills(start_x: float, direction: int) -> void:
 	shape.polygon = poly
 	%StaticBody2D.add_child(shape)
 
-	# --- Dirt polygon (background fill) ---
+	# Dirt polygon
 	var dirt_poly = Polygon2D.new()
 	dirt_poly.polygon = poly
 	dirt_poly.texture = dirt_texture
 	dirt_poly.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	add_child(dirt_poly)
 
-	# --- Grass Sprites along the hilltop ---
+	# Grass Sprites along the hilltop
 	var segment_length = grass_texture.get_width() * 0.8 # Slight overlap for cleaner look
 
 	var grass_points = []
@@ -119,8 +142,33 @@ func add_hills(start_x: float, direction: int) -> void:
 			grass_sprite.rotation = angle
 			add_child(grass_sprite)
 
-			# Optionally: Add random flip/scale for variation
 			grass_sprite.flip_h = bool(randi() % 2)
+
+			# Trigger a new spill randomly
+			if toggle_oil == true and oil_trail_remaining == 0 and randi() % chance_for_oil_spill == 0:
+				oil_trail_remaining = oil_trail_length
+
+			if oil_trail_remaining > 0:
+				grass_sprite.modulate = Color(0.4, 0.4, 0.4)
+				oil_trail_remaining -= 1
+
+				# Create slippery StaticBody2D
+				var oil_body = StaticBody2D.new()
+				var oil_shape = CollisionShape2D.new()
+				var rect_shape = RectangleShape2D.new()
+				rect_shape.size = Vector2(segment_length, 10)
+				oil_shape.shape = rect_shape
+				oil_shape.position = grass_sprite.position
+				oil_shape.rotation = angle
+
+				# Add low-friction physics material
+				var material = PhysicsMaterial.new()
+				material.friction = oil_friction
+				oil_body.physics_material_override = material
+
+				oil_body.add_child(oil_shape)
+				add_child(oil_body)
+
 
 			current_pos += direction_vector * segment_length
 			distance_covered += segment_length
@@ -130,3 +178,19 @@ func add_hills(start_x: float, direction: int) -> void:
 		rightmost_x = terrain[-1].x
 	else:
 		leftmost_x = terrain[0].x
+
+func _physics_process(delta: float) -> void:
+	if is_wind_active and toggle_wind:
+		%Parallax2D.autoscroll.x = -50 + (-wind_force * 50) 
+		motorcycle.apply_central_impulse(Vector2(-wind_force, 0))
+	elif not is_wind_active:
+		%Parallax2D.autoscroll.x = -50
+
+func _on_wind_timeout_timeout() -> void:
+	is_wind_active = true
+	wind_timeout.stop()
+	wind_duration.start()
+	
+func _on_wind_duration_timeout() -> void:
+	is_wind_active = false
+	wind_timeout.start()
