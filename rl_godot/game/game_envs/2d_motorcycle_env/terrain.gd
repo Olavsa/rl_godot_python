@@ -2,16 +2,16 @@ extends Node2D
 
 @export var toggle_wind = false
 @export var toggle_oil = false
-@export var hills_per_chunk = 2
+@export var hills_per_chunk = 2 # How many hills to be generated per chunk
 @export var points_per_hill = 10 # More points = smoother hills
-@export var hill_height_range = 200
-@export var hill_width_multiplier = 2.0
+@export var hill_height_range = 200 # How heigh the hills are
+@export var hill_width_multiplier = 2.0 # How wide/steep the hills are. Lower = steeper
 @export var oil_trail_length = 30 # Number of darkened segments after oil spill triggers
 @export var chance_for_oil_spill = 100 # 1 out of x for oil to spawn
-@export var oil_friction = 0.05
+@export var oil_friction = 0.05 # 1 = normal friction
 @export var wind_force = -1000.0 # Negative to push left/backwards
-@export var wind_timer = 10
-@export var wind_duartion_time = 2
+@export var wind_timer = 10 # Time inbetween wind gusts
+@export var wind_duartion_time = 2 # How long wind lasts
 
 
 @onready var wind_duration: Timer = $wind_duration
@@ -48,10 +48,11 @@ func _ready() -> void:
 	wind_duration.wait_time = wind_duartion_time
 	wind_timeout.wait_time = wind_timer
 	
-	add_hills(start_point.x, 1) # Forward
-	add_hills(start_point.x, -1) # Backward
+	add_hills(start_point.x, 1) # Generates hill forward
+	add_hills(start_point.x, -1) # Generates hill backward
 
 func _process(delta: float) -> void:
+	#Generates more hills either infront or behind the player
 	if rightmost_x < motorcycle.position.x + screensize.x:
 		add_hills(rightmost_x, 1)
 

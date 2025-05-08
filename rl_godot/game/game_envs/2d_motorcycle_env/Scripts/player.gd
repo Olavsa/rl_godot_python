@@ -6,7 +6,7 @@ var speed = 600000
 var max_speed = 50
 var body_torque_impulse_force = 0.4
 @export var distance_to_goal = 300
-@export var idle_limit = 2.0 # seconds of idle time before truncation
+@export var idle_limit = 2.0 # Seconds of idle time before truncation
 
 @onready var head: RigidBody2D = $Head
 @onready var upper_body: RigidBody2D = $UpperBody
