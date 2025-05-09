@@ -33,8 +33,9 @@ func _ready() -> void:
 	if human_mode:
 		print("Running in human mode.")
 		game_process.human_mode = true
-		server_tcp.stop_server_thread()
-		server_tcp.free()
+		if server_tcp != null:
+			server_tcp.stop_server_thread()
+			server_tcp.free()
 	else:
 		print("Starting server...")
 		game_process.human_mode = false
