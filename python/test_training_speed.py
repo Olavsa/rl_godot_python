@@ -2,8 +2,8 @@
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 
-from parking_env import ParkingEnv
-from motorcycle_env import MotorcycleEnv
+from godot_gym_envs.parking_env import ParkingEnv
+from godot_gym_envs.motorcycle_env import MotorcycleEnv
 
 
 import time

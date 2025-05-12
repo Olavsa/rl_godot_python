@@ -1,6 +1,6 @@
 import asyncio
-from async_tcp_client import AsyncTCPClient
-from packet_serializer import PacketSerializer
+from tcp.async_tcp_client import AsyncTCPClient
+from tcp.packet_serializer import PacketSerializer
 
 import time
 

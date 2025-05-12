@@ -5,7 +5,7 @@ from stable_baselines3.common.env_util import make_vec_env
 
 from eval_plot_utils import plot_reward_distribution
 
-from motorcycle_env import MotorcycleEnv
+from godot_gym_envs.motorcycle_env import MotorcycleEnv
 
 
 # Evaluation environment setup
@@ -13,7 +13,7 @@ eval_env = make_vec_env(MotorcycleEnv, 1)
 eval_env.training = False  # Important: Turn off training to prevent stats updates
 
 model_file_name = "PPO_godot_motorcycle_agent"
-model_path = f"./{model_file_name}.zip"
+model_path = f"./python/ppo_motorcycle/trained_models/{model_file_name}.zip"
 
 # Load model
 model = PPO.load(model_path, env=eval_env)
