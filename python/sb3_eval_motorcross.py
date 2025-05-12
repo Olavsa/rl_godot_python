@@ -13,7 +13,7 @@ eval_env = make_vec_env(MotorcycleEnv, 1)
 eval_env.training = False  # Important: Turn off training to prevent stats updates
 
 model_file_name = "PPO_godot_motorcycle_agent"
-model_path = f"./{model_file_name}.zip"
+model_path = f"./python/ppo_motorcycle/trained_models/{model_file_name}.zip"
 
 # Load model
 model = PPO.load(model_path, env=eval_env)

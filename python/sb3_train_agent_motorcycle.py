@@ -8,7 +8,8 @@ tensorboard_log_dir = "./python/ppo_motorcycle/tensorboard/ppo_motorcycle_tensor
 
 # Define model filename
 model_file_name = "PPO_godot_motorcycle_agent"
-model_path = "PPO_godot_motorcycle_agent.zip"
+model_path = "./python/ppo_motorcycle/trained_models/PPO_godot_motorcycle_agent"
+model_path_zip = model_path + ".zip"
 
 # Create the environment with rendering enabled
 env = MotorcycleEnv(render_mode="human")
@@ -21,9 +22,9 @@ else:
     print(f"Log directory already exists: {tensorboard_log_dir}")
 
 # Load existing model if available, otherwise initialize a new one
-if os.path.exists(model_path):
+if os.path.exists(model_path_zip):
     print("Loading existing model...")
-    model = PPO.load(model_path, env=env, tensorboard_log= tensorboard_log_dir)  # Load with the same environment
+    model = PPO.load(model_path_zip, env=env, tensorboard_log= tensorboard_log_dir)  # Load with the same environment
 else:
     print("No existing model found. Creating new one...")
     model = PPO("MultiInputPolicy", env, verbose=1, tensorboard_log= tensorboard_log_dir)
@@ -38,7 +39,7 @@ for i in range(num_iterations):
     model.learn(total_timesteps=timesteps_per_iter, reset_num_timesteps=False,  tb_log_name=model_file_name)
     
     # Save the trained model
-    model.save("PPO_godot_motorcycle_agent")
+    model.save(model_path)
     print("Model saved successfully.")
 
 # Close the environment
