@@ -1,6 +1,6 @@
 import asyncio
 import json
-from packet_serializer import PacketSerializer
+from tcp.packet_serializer import PacketSerializer
 import socket
 
 TIMEOUT = 10  # Timeout for receiving data
