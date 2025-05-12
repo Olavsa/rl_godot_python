@@ -1,7 +1,7 @@
 import asyncio
 import numpy as np
 import gymnasium as gym
-from sync_tcp_client import SyncTCPClient
+from tcp.sync_tcp_client import SyncTCPClient
 
 
 class GameEnv(gym.Env):
