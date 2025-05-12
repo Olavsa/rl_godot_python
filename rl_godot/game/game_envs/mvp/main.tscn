@@ -17,8 +17,9 @@ size = Vector2(40.1973, 39.9553)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0xm2m")
+human_mode = false
 
-[node name="ServerTCP" parent="." instance=ExtResource("2_h2yge")]
+[node name="TCPServerPython" parent="." instance=ExtResource("2_h2yge")]
 
 [node name="GameProcess" parent="." instance=ExtResource("3_1bvp3")]
 

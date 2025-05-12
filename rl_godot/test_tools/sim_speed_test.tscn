@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3ems00qwe1pg"]
+
+[ext_resource type="Script" uid="uid://bo8appfpv0stc" path="res://test_tools/sim_speed_test.gd" id="1_agg7q"]
+
+[node name="SimSpeedTest" type="Node"]
+script = ExtResource("1_agg7q")
