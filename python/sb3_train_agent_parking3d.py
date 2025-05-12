@@ -1,6 +1,6 @@
 import os
 from stable_baselines3 import PPO
-from parking_env import ParkingEnv
+from godot_gym_envs.parking_env import ParkingEnv
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecNormalize, VecMonitor
 

@@ -1,6 +1,6 @@
 import os
 from stable_baselines3 import PPO
-from motorcycle_env import MotorcycleEnv
+from godot_gym_envs.motorcycle_env import MotorcycleEnv
 
 
 # Tensor board log

@@ -1,5 +1,5 @@
 import time
-from sync_tcp_client import SyncTCPClient
+from tcp.sync_tcp_client import SyncTCPClient
 
 def get_action(observation_dict):
     """

@@ -6,7 +6,7 @@ from stable_baselines3.common.vec_env import VecNormalize
 
 from eval_plot_utils import plot_reward_distribution
 
-from parking_env import ParkingEnv
+from godot_gym_envs.parking_env import ParkingEnv
 
 # Evaluation environment setup (fresh env for eval, with rendering enabled if needed)
 eval_env = make_vec_env(ParkingEnv, 1)

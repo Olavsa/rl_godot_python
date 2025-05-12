@@ -5,7 +5,7 @@ from stable_baselines3.common.env_util import make_vec_env
 
 from eval_plot_utils import plot_reward_distribution
 
-from motorcycle_env import MotorcycleEnv
+from godot_gym_envs.motorcycle_env import MotorcycleEnv
 
 
 # Evaluation environment setup
