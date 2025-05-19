@@ -14,13 +14,11 @@ This project connects reinforcement learning (RL) in Python with interactive sim
 
 ## Features
 
-- **Reinforcement Learning** via Stable Baselines 3 (PPO)
+- **Reinforcement Learning** via Stable Baselines 3 (PPO & DQN)
 - **Custom environments** built in Godot (2D motorcycle and 3D parking simulator)
 - **Gymnasium-compatible** Python environments
 - Asynchronous/synchronous TCP communication (via asyncio)
-- Integration and functional testing
-- Adjustable simulation parameters and visual rendering
-- Easy-to-extend architecture for new environments
+- Adjustable simulation speeds and headless option
 
 ## System Architecture
 
